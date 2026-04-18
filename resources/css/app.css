@@ -1,0 +1,215 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@source "../../vendor/livewire/livewire/src/**/*.blade.php";
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+@theme inline {
+    --font-family-sans:    'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-family-mono:    'DM Mono', ui-monospace, monospace;
+    --font-family-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --color-bg:               var(--color-bg);
+    --color-surface:          var(--color-surface);
+    --color-surface-raised:   var(--color-surface-raised);
+    --color-surface-sunken:   var(--color-surface-sunken);
+    --color-surface-hover:    var(--color-surface-hover);
+    --color-surface-active:   var(--color-surface-active);
+    --color-border:           var(--color-border);
+    --color-text:             var(--color-text);
+    --color-muted:            var(--color-text-muted);
+    --color-accent:           var(--color-accent);
+    --color-accent-hover:     var(--color-accent-hover);
+    --color-accent-subtle:    var(--color-accent-subtle);
+    --color-accent-muted:     var(--color-accent-muted);
+    --color-secondary:        var(--color-accent-secondary);
+    --color-success:          var(--color-success);
+    --color-danger:           var(--color-danger);
+    --color-warning:          var(--color-warning);
+    --color-info:             var(--color-info);
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME — Deep Ocean (Light)
+   ═══════════════════════════════════════════ */
+
+/*
+   ┌─────────────────────────────────────────────┐
+   │  SWAPPING THEMES                            │
+   │  Only hex values should change.             │
+   │  Do NOT rename variables.                   │
+   └─────────────────────────────────────────────┘
+*/
+
+:root {
+    --color-bg:               #EDF2F7;
+    --color-surface:          #FFFFFF;
+    --color-surface-raised:   #E2EAF4;
+    --color-surface-sunken:   #D8E4F0;
+    --color-surface-overlay:  #EAF0F8;
+    --color-surface-hover:    #D8E4F0;
+    --color-surface-active:   #C8D8EC;
+    --color-border:           #B8CCDE;
+    --color-border-focus:     #0096B4;
+    --color-text:             #0A1828;
+    --color-text-muted:       #3A5878;
+    --color-text-disabled:    #8AAAC4;
+    --color-text-placeholder: #8AAAC4;
+    --color-text-inverse:     #EDF2F7;
+    --color-text-link:        #0077B6;
+    --color-text-link-hover:  #005A8A;
+    --color-text-on-accent:   #FFFFFF;
+    --color-accent:           #0096B4;
+    --color-accent-hover:     #0077B6;
+    --color-accent-subtle:    #E0F4F8;
+    --color-accent-muted:     #A8DCE8;
+    --color-accent-secondary: #0077B6;
+    --color-accent-secondary-hover: #005A8A;
+    --color-gold:             #D4700A;
+    --color-gold-hover:       #B05808;
+    --color-gold-muted:       #FDE8CC;
+    --color-success:          #1A7A4A;
+    --color-success-hover:    #106038;
+    --color-danger:           #C03828;
+    --color-danger-hover:     #A02818;
+    --color-warning:          #C47010;
+    --color-warning-hover:    #A05808;
+    --color-info:             #0077B6;
+    --color-info-hover:       #005A8A;
+    --color-focus-ring:       #A8DCE8;
+    --color-scrollbar:        #B8CCDE;
+    --color-scrollbar-hover:  #A0B8D0;
+    --color-skeleton:         #D8E4F0;
+    --color-skeleton-shine:   #E8F0F8;
+    --color-tooltip-bg:       #0A1828;
+    --color-tooltip-text:     #EDF2F7;
+    --color-badge-neutral-bg:   #E2EAF4;
+    --color-badge-neutral-text: #3A5878;
+
+    /* Marine fossil */
+    --color-badge-marine-bg:          #E0F4F8;
+    --color-badge-marine-text:        #0077B6;
+    --color-badge-marine-border:      #A8DCE8;
+    /* Terrestrial fossil */
+    --color-badge-terrestrial-bg:     #E4F4E8;
+    --color-badge-terrestrial-text:   #1A7A4A;
+    --color-badge-terrestrial-border: #A8D8B8;
+    /* Trace / ichnofossil */
+    --color-badge-trace-bg:           #FDE8CC;
+    --color-badge-trace-text:         #C47010;
+    --color-badge-trace-border:       #F4C880;
+    /* Plant / form taxon */
+    --color-badge-plant-bg:           #F0EEE4;
+    --color-badge-plant-text:         #6A6030;
+    --color-badge-plant-border:       #D4CCA0;
+}
+
+/* ═══════════════════════════════════════════
+   DARK THEME — Deep Ocean
+   ═══════════════════════════════════════════ */
+[data-theme="dark"] {
+    --color-bg:               #070D14;
+    --color-surface:          #0D1A24;
+    --color-surface-raised:   #122030;
+    --color-surface-sunken:   #040A10;
+    --color-surface-overlay:  #0A1520;
+    --color-surface-hover:    #182C3E;
+    --color-surface-active:   #1E3448;
+    --color-border:           #1A3048;
+    --color-border-focus:     #00B4D8;
+    --color-text:             #CAE0F0;
+    --color-text-muted:       #5A88A8;
+    --color-text-disabled:    #1E3C58;
+    --color-text-placeholder: #1E3C58;
+    --color-text-inverse:     #070D14;
+    --color-text-link:        #00B4D8;
+    --color-text-link-hover:  #38CCE8;
+    --color-text-on-accent:   #070D14;
+    --color-accent:           #00B4D8;
+    --color-accent-hover:     #0096B4;
+    --color-accent-subtle:    #071824;
+    --color-accent-muted:     #0A2840;
+    --color-accent-secondary: #0077B6;
+    --color-accent-secondary-hover: #005A8A;
+    --color-gold:             #F4A261;
+    --color-gold-hover:       #E07840;
+    --color-gold-muted:       #1E1408;
+    --color-success:          #2AAC6A;
+    --color-success-hover:    #1A8C50;
+    --color-danger:           #E05848;
+    --color-danger-hover:     #C04030;
+    --color-warning:          #F4A261;
+    --color-warning-hover:    #D4804A;
+    --color-info:             #00B4D8;
+    --color-info-hover:       #0096B4;
+    --color-focus-ring:       #0A2840;
+    --color-scrollbar:        #1A3048;
+    --color-scrollbar-hover:  #243C58;
+    --color-skeleton:         #0D1A24;
+    --color-skeleton-shine:   #122030;
+    --color-tooltip-bg:       #1A3048;
+    --color-tooltip-text:     #CAE0F0;
+    --color-badge-neutral-bg:   #122030;
+    --color-badge-neutral-text: #5A88A8;
+
+    /* Marine fossil */
+    --color-badge-marine-bg:          #071824;
+    --color-badge-marine-text:        #00B4D8;
+    --color-badge-marine-border:      #0A2840;
+    /* Terrestrial fossil */
+    --color-badge-terrestrial-bg:     #081810;
+    --color-badge-terrestrial-text:   #2AAC6A;
+    --color-badge-terrestrial-border: #0A2418;
+    /* Trace / ichnofossil */
+    --color-badge-trace-bg:           #1A1008;
+    --color-badge-trace-text:         #F4A261;
+    --color-badge-trace-border:       #2A1C0C;
+    /* Plant / form taxon */
+    --color-badge-plant-bg:           #141810;
+    --color-badge-plant-text:         #90A870;
+    --color-badge-plant-border:       #202810;
+}
+
+@layer base {
+    :focus-visible {
+        outline: 2px solid var(--color-border-focus);
+        outline-offset: 2px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-family-sans);
+    }
+    ::selection {
+        background-color: var(--color-accent-muted);
+        color: var(--color-text);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--color-scrollbar); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-scrollbar-hover); }
+}
+
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.no-spin { -moz-appearance: textfield; }
+
+.skeleton {
+    background: var(--color-skeleton);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--color-skeleton-shine) 50%, transparent 100%);
+    animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-sweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
