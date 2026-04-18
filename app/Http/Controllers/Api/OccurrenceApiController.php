@@ -14,6 +14,7 @@ use App\Http\Requests\OccurrenceIndexRequest;
 use App\Models\RecentlyViewed;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class OccurrenceApiController extends Controller
 {
@@ -60,7 +61,11 @@ class OccurrenceApiController extends Controller
     public function show(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->connection->get('/occs/list', ['occ_id' => $id, 'show' => 'full']);
+            $response = Cache::remember(
+                'pbdb_occ_'.$id,
+                3600,
+                fn () => $this->connection->get('/occs/list', ['occ_id' => $id, 'show' => 'full'])
+            );
         } catch (ApiException) {
             return response()->json(['message' => 'Failed to fetch occurrence.'], 500);
         }
