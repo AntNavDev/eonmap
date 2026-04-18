@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RecentlyViewed extends Model
 {
+    protected $table = 'recently_viewed';
+
     public $timestamps = false;
 
     protected $fillable = [

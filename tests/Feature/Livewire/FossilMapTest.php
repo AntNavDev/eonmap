@@ -19,7 +19,7 @@ class FossilMapTest extends TestCase
             ->assertOk();
     }
 
-    public function test_load_occurrences_dispatches_occurrences_loaded_event(): void
+    public function test_on_filters_applied_dispatches_occurrences_loaded_event(): void
     {
         $collection = new OccurrenceCollection(items: [], total: 0, offset: 0);
 
@@ -29,12 +29,11 @@ class FossilMapTest extends TestCase
             ->andReturn($collection);
 
         Livewire::test(FossilMap::class)
-            ->set('baseName', 'Dinosauria')
-            ->call('loadOccurrences')
+            ->dispatch('apply-filters', baseName: 'Dinosauria')
             ->assertDispatched('occurrences-loaded');
     }
 
-    public function test_load_occurrences_dispatches_occurrences_error_on_api_exception(): void
+    public function test_on_filters_applied_dispatches_occurrences_error_on_api_exception(): void
     {
         $this->mock(FossilOccurrenceServiceInterface::class)
             ->shouldReceive('getOccurrences')
@@ -42,34 +41,22 @@ class FossilMapTest extends TestCase
             ->andThrow(new ApiException('Service unavailable'));
 
         Livewire::test(FossilMap::class)
-            ->set('baseName', 'Dinosauria')
-            ->call('loadOccurrences')
+            ->dispatch('apply-filters', baseName: 'Dinosauria')
             ->assertDispatched('occurrences-error');
     }
 
-    public function test_clear_bounding_box_nulls_all_lat_lng_properties(): void
+    public function test_filters_applied_flag_is_set_after_apply_filters_event(): void
     {
-        Livewire::test(FossilMap::class)
-            ->set('lngMin', -100.0)
-            ->set('lngMax', 100.0)
-            ->set('latMin', -50.0)
-            ->set('latMax', 50.0)
-            ->call('clearBoundingBox')
-            ->assertSet('lngMin', null)
-            ->assertSet('lngMax', null)
-            ->assertSet('latMin', null)
-            ->assertSet('latMax', null);
-    }
+        $collection = new OccurrenceCollection(items: [], total: 0, offset: 0);
 
-    public function test_filter_panel_renders_all_environment_type_checkboxes(): void
-    {
+        $this->mock(FossilOccurrenceServiceInterface::class)
+            ->shouldReceive('getOccurrences')
+            ->once()
+            ->andReturn($collection);
+
         Livewire::test(FossilMap::class)
-            ->assertSee('Terrestrial')
-            ->assertSee('Marine')
-            ->assertSee('Carbonate')
-            ->assertSee('Siliciclastic')
-            ->assertSee('Reef / bioherm')
-            ->assertSee('Lacustrine')
-            ->assertSee('Fluvial');
+            ->assertSet('filtersApplied', false)
+            ->dispatch('apply-filters', baseName: 'Dinosauria')
+            ->assertSet('filtersApplied', true);
     }
 }

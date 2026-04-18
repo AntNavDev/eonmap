@@ -94,16 +94,20 @@ function fossilMap() {
             });
             this.map.addControl(this.drawControl);
 
-            // Push drawn rectangle bounds back into the Livewire component
+            // Push drawn rectangle bounds into the OccurrenceFilters Livewire
+            // component via a global Livewire event — OccurrenceFilters listens
+            // for 'bbox-set' with #[On('bbox-set')].
             this.map.on(L.Draw.Event.CREATED, (event) => {
                 drawnItems.clearLayers();
                 drawnItems.addLayer(event.layer);
 
                 const bounds = event.layer.getBounds();
-                this.$wire.set('lngMin', bounds.getWest());
-                this.$wire.set('lngMax', bounds.getEast());
-                this.$wire.set('latMin', bounds.getSouth());
-                this.$wire.set('latMax', bounds.getNorth());
+                window.Livewire.dispatch('bbox-set', {
+                    lngMin: bounds.getWest(),
+                    lngMax: bounds.getEast(),
+                    latMin: bounds.getSouth(),
+                    latMax: bounds.getNorth(),
+                });
             });
 
             // Initialise Tom Select on the taxon input

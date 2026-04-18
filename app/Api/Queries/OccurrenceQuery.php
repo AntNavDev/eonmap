@@ -22,11 +22,13 @@ class OccurrenceQuery
      * @param  string|null  $envType  envtype    — depositional environment type
      * @param  string|null  $lithology  lithology  — lithology description
      * @param  string|null  $idQual  idqual     — identification quality (any|certain|uncertain)
+     * @param  int|null  $occId  occ_id     — single PBDB occurrence number
      * @param  string  $show  show       — comma-separated response blocks
      * @param  int  $limit  limit      — max records per page
      * @param  int  $offset  offset     — record offset for pagination
      */
     public function __construct(
+        public readonly ?int $occId = null,
         public readonly ?string $baseName = null,
         public readonly ?string $taxonName = null,
         public readonly ?int $baseId = null,
@@ -61,6 +63,7 @@ class OccurrenceQuery
         ];
 
         $map = [
+            'occId' => 'occ_id',
             'baseName' => 'base_name',
             'taxonName' => 'taxon_name',
             'baseId' => 'base_id',
