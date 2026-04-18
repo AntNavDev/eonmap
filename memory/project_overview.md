@@ -22,11 +22,24 @@ Eonmap is a fossil occurrence map application that visualises data from the Pale
 - Docker: `docker/php/Dockerfile`, `docker/nginx/eonmap.conf` + `rate-limit.conf`, `docker/mysql/my.cnf`, `docker-compose.prod.yml`
 - Config: `config/api.php` (PBDB base URL); env vars added for PBDB, Redis, DB
 - API layer: `app/Api/` — `AbstractApiConnection`, `PbdbApiConnection`, contracts, `FossilOccurrenceService`
-- Query object: `app/Api/Queries/OccurrenceQuery` (immutable, `toQueryParams()`)
-- DTOs: `app/DTOs/OccurrenceDTO`, `OccurrenceCollection` (compact PBDB vocabulary)
+- Query object: `app/Api/Queries/OccurrenceQuery` (immutable, `toQueryParams()` maps to PBDB param names)
+- DTOs: `app/DTOs/OccurrenceDTO`, `OccurrenceCollection` (compact PBDB vocabulary: oid, tna, cll, etc.)
 - Service binding in `AppServiceProvider::register()`
-- Base layout: `resources/views/layouts/app.blade.php` (FART script, SEO, theme toggle)
+- Base layout: `resources/views/layouts/app.blade.php` (FART script, SEO, theme toggle, `@yield('content')`)
 - `pint.json` with Laravel preset
-- Unit tests: 18 passing across `OccurrenceQueryTest`, `OccurrenceDTOTest`, `FossilOccurrenceServiceTest`
+- Unit tests: 18 passing
 
-**Why:** PBDB is the data source; all env() calls are isolated to config/ files per the prompt rule.
+## Prompt 2 — Backend Routes, Controllers & Migrations (done)
+- Migrations: `saved_searches` (user_id nullable, name, filters json) + `recently_viewed` (session_id, occurrence_no, viewed_at, no timestamps)
+- Models: `SavedSearch` (filters cast to array), `RecentlyViewed` ($timestamps = false)
+- Routes: `routes/api.php` registered in `bootstrap/app.php`; web routes in `routes/web.php`
+- API controllers: `OccurrenceApiController` (index uses service, show uses connection directly with occ_id), `OccurrenceExportController` (5000-row CSV stream)
+- Web controllers: `MapController`, `BrowseController`, `OccurrenceController`, `TaxonController` (stub views)
+- Stub views: `map/index`, `browse/index`, `occurrences/show`, `taxa/show` — extend layouts.app
+- Form request: `OccurrenceIndexRequest` (withValidator enforces at least one filter)
+- Feature tests: 10 passing (WebRoutesTest uses withoutVite())
+
+**Key decisions:**
+- `show()` in `OccurrenceApiController` calls `PbdbApiConnection::get()` directly (bypassing OccurrenceQuery/service) to avoid modifying app/Api/ — passes `occ_id` + `show=full` as raw params
+- Layout uses `@yield('content')` (not $slot) for @extends compatibility with stub views
+- `withoutVite()` used in WebRoutesTest to avoid manifest.json failures in test environment

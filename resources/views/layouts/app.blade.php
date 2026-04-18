@@ -34,7 +34,7 @@
     </nav>
 
     <main>
-        {{ $slot }}
+        @yield('content')
     </main>
 </body>
 </html>
