@@ -40,7 +40,7 @@ class GenerateSitemap extends Command
         foreach ($this->urls as $entry) {
             $urlEl = $dom->createElement('url');
 
-            $urlEl->appendChild($dom->createElement('loc', $baseUrl . $entry['path']));
+            $urlEl->appendChild($dom->createElement('loc', $baseUrl.$entry['path']));
             $urlEl->appendChild($dom->createElement('lastmod', $lastmod));
             $urlEl->appendChild($dom->createElement('changefreq', $entry['changefreq']));
             $urlEl->appendChild($dom->createElement('priority', $entry['priority']));

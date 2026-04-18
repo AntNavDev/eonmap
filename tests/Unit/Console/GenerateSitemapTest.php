@@ -42,9 +42,9 @@ class GenerateSitemapTest extends TestCase
 
         $appUrl = rtrim(config('app.url'), '/');
 
-        $this->assertStringContainsString($appUrl . '/', $content);
-        $this->assertStringContainsString($appUrl . '/map', $content);
-        $this->assertStringContainsString($appUrl . '/browse', $content);
+        $this->assertStringContainsString($appUrl.'/', $content);
+        $this->assertStringContainsString($appUrl.'/map', $content);
+        $this->assertStringContainsString($appUrl.'/browse', $content);
     }
 
     public function test_each_url_block_contains_required_elements(): void
