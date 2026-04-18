@@ -42,7 +42,7 @@ class OccurrenceQuery
         public readonly ?string $envType = null,
         public readonly ?string $lithology = null,
         public readonly ?string $idQual = null,
-        public readonly string $show = 'coords,class,loc,time',
+        public readonly string $show = 'coords,class,loc,time,paleoloc',
         public readonly int $limit = 500,
         public readonly int $offset = 0,
     ) {}

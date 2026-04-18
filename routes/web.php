@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/map');
 
-Route::get('/map', [MapController::class, 'index']);
-Route::get('/browse', [BrowseController::class, 'index']);
+Route::get('/map', [MapController::class, 'index'])->name('map');
+Route::get('/browse', [BrowseController::class, 'index'])->name('browse');
 Route::get('/occurrences/{id}', [OccurrenceController::class, 'show']);
 Route::get('/taxa/{name}', [TaxonController::class, 'show']);

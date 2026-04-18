@@ -26,6 +26,8 @@ class OccurrenceDTO
      * @param  string|null  $formation  sfm — stratigraphic formation
      * @param  string|null  $environment  env — depositional environment
      * @param  int  $collectionNo  cid — PBDB collection number
+     * @param  float|null  $paleolat  pla — reconstructed paleolatitude
+     * @param  float|null  $paleolng  plo — reconstructed paleolongitude
      */
     public function __construct(
         public readonly int $occurrenceNo,
@@ -47,6 +49,8 @@ class OccurrenceDTO
         public readonly ?string $formation,
         public readonly ?string $environment,
         public readonly int $collectionNo,
+        public readonly ?float $paleolat = null,
+        public readonly ?float $paleolng = null,
     ) {}
 
     /**
@@ -76,6 +80,8 @@ class OccurrenceDTO
             formation: $data['sfm'] ?? null,
             environment: $data['env'] ?? null,
             collectionNo: (int) $data['cid'],
+            paleolat: isset($data['pla']) ? (float) $data['pla'] : null,
+            paleolng: isset($data['plo']) ? (float) $data['plo'] : null,
         );
     }
 }

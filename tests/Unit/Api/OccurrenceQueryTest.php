@@ -33,7 +33,7 @@ class OccurrenceQueryTest extends TestCase
         $this->assertArrayHasKey('show', $params);
         $this->assertArrayHasKey('limit', $params);
         $this->assertArrayHasKey('offset', $params);
-        $this->assertSame('coords,class,loc,time', $params['show']);
+        $this->assertSame('coords,class,loc,time,paleoloc', $params['show']);
         $this->assertSame(500, $params['limit']);
         $this->assertSame(0, $params['offset']);
     }

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    Map page coming soon
+    <livewire:fossil-map />
 @endsection
+
+@push('scripts')
+    @vite('resources/js/map.js')
+@endpush

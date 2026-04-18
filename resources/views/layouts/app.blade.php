@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased">
@@ -28,7 +29,21 @@
                 <a href="/" class="text-lg font-semibold tracking-tight text-[var(--color-text)]">
                     Eonmap
                 </a>
-                <x-theme-toggle />
+                <div class="flex items-center gap-6">
+                    <a
+                        href="{{ route('map') }}"
+                        class="text-sm font-medium transition-colors {{ request()->routeIs('map') ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-text)]' }}"
+                    >
+                        Map
+                    </a>
+                    <a
+                        href="{{ route('browse') }}"
+                        class="text-sm font-medium transition-colors {{ request()->routeIs('browse') ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-text)]' }}"
+                    >
+                        Browse
+                    </a>
+                    <x-theme-toggle />
+                </div>
             </div>
         </div>
     </nav>
@@ -36,5 +51,8 @@
     <main>
         @yield('content')
     </main>
+
+    @stack('scripts')
+    @livewireScriptConfig
 </body>
 </html>
