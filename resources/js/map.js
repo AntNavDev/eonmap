@@ -237,6 +237,11 @@ export function taxonMiniMap({ occurrences }) {
         map: null,
         markerClusterGroup: null,
 
+        destroy() {
+            this.map?.remove();
+            this.map = null;
+        },
+
         init() {
             this.map = L.map('taxon-map', {
                 center: [20, 0],

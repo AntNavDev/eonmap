@@ -7,13 +7,15 @@
                 <h1 class="text-sm font-semibold">Browse Occurrences</h1>
                 <button
                     x-on:click="filtersOpen = !filtersOpen"
+                    x-bind:aria-expanded="filtersOpen"
+                    aria-controls="browser-filters"
                     class="text-xs text-muted hover:text-text transition-colors lg:hidden"
                 >
                     <span x-text="filtersOpen ? 'Hide filters' : 'Show filters'"></span>
                 </button>
             </div>
 
-            <div x-show="filtersOpen" x-cloak class="border-t border-border">
+            <div id="browser-filters" x-show="filtersOpen" x-cloak class="border-t border-border">
                 <livewire:occurrence-filters />
             </div>
         </div>
@@ -35,6 +37,7 @@
         <a
             href="{{ $exportUrl }}"
             class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-surface-hover transition-colors"
+            aria-label="Export current results as CSV"
         >
             Export CSV
         </a>

@@ -157,6 +157,8 @@
                     x-data="occurrenceMiniMap({{ $occurrence->lat }}, {{ $occurrence->lng }}, '{{ addslashes($occurrence->acceptedName) }}')"
                     id="occurrence-mini-map"
                     class="h-96 w-full rounded-xl border border-border overflow-hidden"
+                    role="application"
+                    aria-label="Map showing the location of this {{ $occurrence->acceptedName }} occurrence"
                 ></div>
             @else
                 <div class="h-96 w-full rounded-xl border border-border bg-surface-sunken flex items-center justify-center">

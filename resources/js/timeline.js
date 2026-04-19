@@ -24,6 +24,13 @@ function maToDate(ma) {
  */
 export function taxonTimeline({ occurrences, name }) {
     return {
+        timeline: null,
+
+        destroy() {
+            this.timeline?.destroy();
+            this.timeline = null;
+        },
+
         init() {
             const maValues = occurrences.map((o) => o.maxMa).filter((v) => v != null);
             const miValues = occurrences.map((o) => o.minMa).filter((v) => v != null);
@@ -48,7 +55,7 @@ export function taxonTimeline({ occurrences, name }) {
 
             const groups = new DataSet([{ id: 1, content: '' }]);
 
-            new Timeline(container, items, groups, {
+            this.timeline = new Timeline(container, items, groups, {
                 start: maToDate(540),
                 end: maToDate(0),
                 selectable: false,

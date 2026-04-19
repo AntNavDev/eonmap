@@ -22,14 +22,22 @@ L.Icon.Default.mergeOptions({
  */
 function occurrenceMiniMap(lat, lng, taxonName) {
     return {
+        map: null,
+
+        destroy() {
+            this.map?.remove();
+            this.map = null;
+        },
+
         init() {
             if (lat == null || lng == null) return;
 
-            const map = L.map('occurrence-mini-map', {
+            this.map = L.map('occurrence-mini-map', {
                 center: [lat, lng],
                 zoom: 8,
                 scrollWheelZoom: false,
             });
+            const map = this.map;
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution:

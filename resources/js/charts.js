@@ -20,6 +20,11 @@ export function taxonCharts({ occurrences }) {
     return {
         chart: null,
 
+        destroy() {
+            this.chart?.destroy();
+            this.chart = null;
+        },
+
         init() {
             // Bin by earlyInterval; track maxMa values per bin for sort order.
             const bins = {};

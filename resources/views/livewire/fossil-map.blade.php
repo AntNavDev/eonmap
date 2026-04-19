@@ -1,7 +1,7 @@
 <div class="grid grid-cols-[18rem_1fr] h-[calc(100vh-4rem)]">
 
     {{-- ─── Filter Panel ──────────────────────────────────────────────── --}}
-    <aside class="flex flex-col bg-surface border-r border-border overflow-y-auto">
+    <aside class="flex flex-col bg-surface border-r border-border overflow-y-auto" aria-label="Filters">
         <livewire:occurrence-filters />
 
         {{-- Error state (set by FossilMap when the API call fails) --}}
@@ -19,7 +19,7 @@
         class="relative bg-surface-sunken"
     >
         {{-- Leaflet map --}}
-        <div id="eonmap-map" class="w-full h-full"></div>
+        <div id="eonmap-map" class="w-full h-full" role="application" aria-label="Fossil occurrence map"></div>
 
         {{-- Empty state overlay — shown until the user applies filters --}}
         @unless ($hasFilters)
@@ -38,8 +38,9 @@
             <button
                 x-on:click="toggleHeatmap()"
                 x-bind:class="heatmapMode ? 'bg-accent text-white' : 'bg-surface text-text'"
+                x-bind:aria-pressed="heatmapMode"
                 class="rounded-md border border-border px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
-                title="Toggle heatmap"
+                aria-label="Toggle heatmap"
             >
                 Heatmap
             </button>
@@ -48,8 +49,9 @@
             <button
                 x-on:click="togglePaleoMode()"
                 x-bind:class="paleoMode ? 'bg-accent text-white' : 'bg-surface text-text'"
+                x-bind:aria-pressed="paleoMode"
                 class="rounded-md border border-border px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
-                title="Toggle paleocoordinates"
+                aria-label="Toggle paleocoordinates"
             >
                 Paleo
             </button>
@@ -57,7 +59,10 @@
             {{-- Basemap switcher --}}
             <x-ui.dropdown align="right" width="sm">
                 <x-slot:trigger>
-                    <button class="w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors">
+                    <button
+                        class="w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
+                        aria-label="Switch basemap"
+                    >
                         Basemap
                     </button>
                 </x-slot:trigger>
