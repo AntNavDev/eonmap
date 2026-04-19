@@ -10,6 +10,6 @@ class BrowseController extends Controller
 {
     public function index(): View
     {
-        return view('browse.index');
+        return view('browse.index')->with('title', 'Browse Fossils');
     }
 }

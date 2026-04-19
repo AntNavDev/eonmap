@@ -226,6 +226,53 @@ function fossilMap() {
     };
 }
 
+/**
+ * Alpine component for the taxon page mini-map. Renders all occurrences
+ * as clustered markers and fits the map bounds to the full marker set.
+ *
+ * @param {{ occurrences: Array }} params
+ */
+export function taxonMiniMap({ occurrences }) {
+    return {
+        map: null,
+        markerClusterGroup: null,
+
+        init() {
+            this.map = L.map('taxon-map', {
+                center: [20, 0],
+                zoom: 2,
+                scrollWheelZoom: false,
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19,
+            }).addTo(this.map);
+
+            this.markerClusterGroup = L.markerClusterGroup();
+            this.map.addLayer(this.markerClusterGroup);
+
+            occurrences.forEach((occ) => {
+                if (occ.lat == null || occ.lng == null) return;
+
+                L.marker([occ.lat, occ.lng])
+                    .bindPopup(
+                        `<strong>${occ.acceptedName}</strong><br>` +
+                        `<a href="/occurrences/${occ.occurrenceNo}" style="color:#0096B4">View occurrence &rarr;</a>`
+                    )
+                    .addTo(this.markerClusterGroup);
+            });
+
+            if (this.markerClusterGroup.getLayers().length > 0) {
+                this.map.fitBounds(this.markerClusterGroup.getBounds(), {
+                    padding: [20, 20],
+                });
+            }
+        },
+    };
+}
+
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('fossilMap', fossilMap);
 });

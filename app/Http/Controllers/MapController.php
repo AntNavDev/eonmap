@@ -10,6 +10,6 @@ class MapController extends Controller
 {
     public function index(): View
     {
-        return view('map.index');
+        return view('map.index')->with('title', 'Fossil Map');
     }
 }

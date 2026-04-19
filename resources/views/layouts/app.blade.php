@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <x-seo :title="$title ?? 'Eonmap'" :description="$description ?? null" />
+    <x-seo :title="$title ?? null" :description="$description ?? null" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,11 +42,14 @@
                     >
                         Browse
                     </a>
+                    <livewire:recently-viewed />
                     <x-theme-toggle />
                 </div>
             </div>
         </div>
     </nav>
+
+    @include('partials.error-banner')
 
     <main>
         @yield('content')

@@ -68,6 +68,10 @@ class WebRoutesTest extends TestCase
 
     public function test_taxon_show_returns_200(): void
     {
+        $this->mock(FossilOccurrenceServiceInterface::class)
+            ->shouldReceive('getOccurrences')
+            ->andReturn(new OccurrenceCollection(items: [], total: 0, offset: 0));
+
         $this->get('/taxa/Tyrannosaurus')->assertOk();
     }
 }

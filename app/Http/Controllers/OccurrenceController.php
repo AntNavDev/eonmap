@@ -49,6 +49,7 @@ class OccurrenceController extends Controller
             'viewed_at' => now(),
         ]);
 
-        return view('occurrences.show', compact('occurrence'));
+        return view('occurrences.show', compact('occurrence'))
+            ->with('title', $occurrence->acceptedName);
     }
 }

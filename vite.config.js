@@ -11,11 +11,16 @@ export default defineConfig({
                 'resources/js/map.js',
                 'resources/js/browse.js',
                 'resources/js/occurrence.js',
+                'resources/js/taxon.js',
             ],
             refresh: true,
         }),
         tailwindcss(),
     ],
+    build: {
+        // vis-timeline + Leaflet are legitimately large; suppress the noise.
+        chunkSizeWarningLimit: 750,
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],
