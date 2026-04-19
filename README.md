@@ -1,58 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Eonmap
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A public fossil occurrence explorer built on the [Paleobiology Database (PBDB)](https://paleobiodb.org) API. Browse hundreds of thousands of fossil records on an interactive map, filter by taxon, geologic period, environment, and location, and explore temporal and geographic distributions for any clade.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Interactive map** — clustered markers, heatmap mode, paleocoordinate toggle, rectangle bounding-box filter, and three basemap options (OSM, Esri Imagery, CartoDB Dark)
+- **Browse table** — paginated, sortable table of occurrences with CSV export
+- **Taxon pages** — occurrence count by geologic period, temporal range timeline, geographic distribution map, and classification breakdown
+- **Occurrence detail** — full taxonomy, location, age bar, and mini-map for individual records
+- **Light/dark theme** — system preference detection with manual toggle, no flash on load
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Layer | Technology |
+|---|---|
+| Framework | Laravel 13 / PHP 8.3+ |
+| Frontend | Livewire 3, Alpine.js, Tailwind CSS v4 |
+| Maps | Leaflet, leaflet.markercluster, leaflet-draw, leaflet.heat |
+| Charts | Chart.js, vis-timeline |
+| Data source | Paleobiology Database public API |
+| Local dev | Laravel Sail (Docker) |
 
-## Learning Laravel
+## Local Development
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Requires Docker Desktop.
 
 ```bash
-composer require laravel/boost --dev
+# Install PHP dependencies
+docker run --rm -v $(pwd):/app composer install
 
-php artisan boost:install
+# Copy environment file and generate key
+cp .env.example .env
+./vendor/bin/sail artisan key:generate
+
+# Start containers
+./vendor/bin/sail up -d
+
+# Install JS dependencies and build assets
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The app is available at `http://localhost`.
 
-## Contributing
+### Useful commands
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+./vendor/bin/sail artisan ...   # Run Artisan commands
+./vendor/bin/sail composer ...  # Run Composer
+./vendor/bin/sail npm ...       # Run npm
 
-## Code of Conduct
+./vendor/bin/sail php ./vendor/bin/pint          # Lint PHP
+./vendor/bin/sail php artisan test               # Run test suite
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Routes
 
-## Security Vulnerabilities
+### Web
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Route | Description |
+|---|---|
+| `GET /map` | Interactive fossil map |
+| `GET /browse` | Paginated occurrence browser |
+| `GET /occurrences/{id}` | Occurrence detail page |
+| `GET /taxa/{name}` | Taxon summary page |
 
-## License
+### API
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Route | Description |
+|---|---|
+| `GET /api/occurrences` | Filtered occurrence list (JSON) |
+| `GET /api/occurrences/{id}` | Single occurrence (JSON) |
+| `GET /api/export/occurrences` | CSV export of current filter |
+
+## Architecture
+
+Data is fetched from PBDB through an isolated API layer (`app/Api/`) and cached for one hour. Livewire components handle filtering state server-side; Alpine.js handles map and chart rendering client-side.
+
+See `app/Api/CLAUDE.md` for the full API layer documentation.
+
+## Testing
+
+```bash
+./vendor/bin/sail php artisan test
+```
+
+Tests use an in-memory SQLite database. All PBDB HTTP calls are stubbed — no network access required. See `testing.md` for conventions.
+
+## CI
+
+GitHub Actions runs Pint and the test suite on every push. See `.github/workflows/ci.yml`.

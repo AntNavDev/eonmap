@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark matrix background, rounded square -->
+  <rect width="32" height="32" rx="6" fill="#1a1510"/>
+
+  <!--
+    Theropod foot skeleton.
+    Drawn in standard orientation (middle toe pointing up, heel down),
+    then rotated -45° so the middle toe points to the top-left and the
+    heel to the bottom-right.
+
+    Key coordinates in local (pre-rotation) space:
+      Heel knob          : (0,  7)
+      Tarsometatarsal jx : (0, -1)   — metatarsal = 8 units (was 11)
+      Digit III joint    : (0, -8)   tip: (0, -13.5)   — 12.5 units total (was 10)
+      Digit II  joint    : (-3.5, -7.06)  tip: (-6, -11.39)  — 12 units total
+      Digit IV  joint    : ( 3.5, -7.06)  tip: ( 6, -11.39)
+
+    Outer toes at ±30° from the middle-toe axis; proximal = 7 units, distal = 5.
+  -->
+  <g transform="translate(16,16) rotate(-45)">
+
+    <!-- Bone shafts -->
+    <g stroke="#d4b48c" stroke-linecap="round" fill="none">
+      <!-- Metatarsal -->
+      <line x1="0"    y1="7"      x2="0"    y2="-1"     stroke-width="2.2"/>
+      <!-- Digit III (middle toe) -->
+      <line x1="0"    y1="-1"     x2="0"    y2="-8"     stroke-width="1.8"/>
+      <line x1="0"    y1="-8"     x2="0"    y2="-13.5"  stroke-width="1.4"/>
+      <!-- Digit II (inner/left toe, 30° left of middle) -->
+      <line x1="0"    y1="-1"     x2="-3.5" y2="-7.06"  stroke-width="1.8"/>
+      <line x1="-3.5" y1="-7.06"  x2="-6"   y2="-11.39" stroke-width="1.4"/>
+      <!-- Digit IV (outer/right toe, 30° right of middle) -->
+      <line x1="0"    y1="-1"     x2="3.5"  y2="-7.06"  stroke-width="1.8"/>
+      <line x1="3.5"  y1="-7.06"  x2="6"    y2="-11.39" stroke-width="1.4"/>
+    </g>
+
+    <!-- Joint knobs (circles drawn over shafts) -->
+    <g fill="#d4b48c">
+      <circle cx="0"    cy="7"      r="2.5"/>   <!-- heel / calcaneum -->
+      <circle cx="0"    cy="-1"     r="2.2"/>   <!-- tarsometatarsal junction -->
+      <!-- Digit III -->
+      <circle cx="0"    cy="-8"     r="1.5"/>
+      <circle cx="0"    cy="-13.5"  r="1.2"/>
+      <!-- Digit II -->
+      <circle cx="-3.5" cy="-7.06"  r="1.5"/>
+      <circle cx="-6"   cy="-11.39" r="1.2"/>
+      <!-- Digit IV -->
+      <circle cx="3.5"  cy="-7.06"  r="1.5"/>
+      <circle cx="6"    cy="-11.39" r="1.2"/>
+    </g>
+
+  </g>
+</svg>
