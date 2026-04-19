@@ -171,9 +171,14 @@ class OccurrenceBrowser extends Component
 
     /**
      * Reset to page 1 and reload when the per-page value changes.
+     * Rejects values outside the allowed set to prevent crafted requests.
      */
     public function updatedPerPage(): void
     {
+        if (! in_array($this->perPage, [25, 50, 100], strict: true)) {
+            $this->perPage = 25;
+        }
+
         $this->offset = 0;
         $this->loadOccurrences();
     }
@@ -217,9 +222,9 @@ class OccurrenceBrowser extends Component
     public function render(): View
     {
         return view('livewire.occurrence-browser', [
-            'from'      => $this->total > 0 ? $this->offset + 1 : 0,
-            'to'        => min($this->offset + $this->perPage, $this->total),
-            'perPage'   => $this->perPage,
+            'from' => $this->total > 0 ? $this->offset + 1 : 0,
+            'to' => min($this->offset + $this->perPage, $this->total),
+            'perPage' => $this->perPage,
             'exportUrl' => $this->exportUrl(),
         ]);
     }

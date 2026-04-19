@@ -6,11 +6,11 @@
 
 @php
 $variants = [
-    'primary'   => 'bg-[var(--color-accent)] text-[var(--color-text-on-accent)] hover:bg-[var(--color-accent-hover)]',
-    'secondary' => 'border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-surface-hover)]',
-    'danger'    => 'bg-[var(--color-danger)] text-white hover:bg-[var(--color-danger-hover)]',
-    'success'   => 'bg-[var(--color-success)] text-white hover:bg-[var(--color-success-hover)]',
-    'ghost'     => 'bg-transparent text-[var(--color-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-hover)]',
+    'primary'   => 'bg-accent text-white hover:bg-accent-hover',
+    'secondary' => 'border border-border bg-surface text-text hover:bg-surface-hover',
+    'danger'    => 'bg-danger text-white hover:bg-danger-hover',
+    'success'   => 'bg-success text-white hover:bg-success-hover',
+    'ghost'     => 'bg-transparent text-muted hover:text-text hover:bg-surface-hover',
 ];
 
 $sizes = [

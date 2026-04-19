@@ -24,7 +24,9 @@
     --color-accent-muted:     var(--color-accent-muted);
     --color-secondary:        var(--color-accent-secondary);
     --color-success:          var(--color-success);
+    --color-success-hover:    var(--color-success-hover);
     --color-danger:           var(--color-danger);
+    --color-danger-hover:     var(--color-danger-hover);
     --color-warning:          var(--color-warning);
     --color-info:             var(--color-info);
 }

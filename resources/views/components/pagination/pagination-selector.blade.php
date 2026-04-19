@@ -17,12 +17,12 @@
     <button
         wire:click="{{ $prevAction }}"
         @disabled(!$canPrev)
-        class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--color-surface-hover)] disabled:cursor-not-allowed disabled:opacity-40"
+        class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
     >
         &larr; Prev
     </button>
 
-    <span class="text-xs text-[var(--color-muted)]">
+    <span class="text-xs text-muted">
         @if ($total > 0)
             Showing {{ number_format($from) }}&ndash;{{ number_format($to) }} of {{ number_format($total) }}
         @else
@@ -33,7 +33,7 @@
     <button
         wire:click="{{ $nextAction }}"
         @disabled(!$canNext)
-        class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--color-surface-hover)] disabled:cursor-not-allowed disabled:opacity-40"
+        class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
     >
         Next &rarr;
     </button>
