@@ -2,65 +2,58 @@
 
     <div class="flex items-center justify-between">
         <h2 class="text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">Filters</h2>
-        <button
-            wire:click="resetFilters"
-            class="text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-        >
+        <x-form.button variant="ghost" size="sm" wire:click="resetFilters">
             Reset
-        </button>
+        </x-form.button>
     </div>
 
     {{-- Taxon --}}
     <div>
-        <label for="baseName" class="block text-sm font-medium mb-1">Taxon</label>
-        <input
+        <x-form.input-label for="baseName" value="Taxon" />
+        <x-form.input
             id="baseName"
-            type="text"
             wire:model.lazy="baseName"
             placeholder="e.g. Dinosauria"
-            class="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
         />
     </div>
 
     {{-- Geologic Interval --}}
     <div>
-        <label for="interval" class="block text-sm font-medium mb-1">Geologic Interval</label>
-        <input
+        <x-form.input-label for="interval" value="Geologic Interval" />
+        <x-form.input
             id="interval"
-            type="text"
             wire:model.lazy="interval"
             placeholder="e.g. Cretaceous"
-            class="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
         />
         <p class="mt-1 text-xs text-[var(--color-muted)]">Interval name as used by PBDB</p>
     </div>
 
     {{-- Age Range --}}
     <div>
-        <span class="block text-sm font-medium mb-1">Age Range (Ma)</span>
+        <x-form.label value="Age Range (Ma)" />
         <div class="grid grid-cols-2 gap-2">
             <div>
-                <label for="minMa" class="block text-xs text-[var(--color-muted)] mb-1">Min</label>
-                <input
+                <x-form.input-label for="minMa" value="Min" :small="true" />
+                <x-form.input
                     id="minMa"
                     type="number"
                     wire:model.lazy="minMa"
                     min="0"
                     max="540"
                     step="0.1"
-                    class="no-spin w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
+                    class="no-spin"
                 />
             </div>
             <div>
-                <label for="maxMa" class="block text-xs text-[var(--color-muted)] mb-1">Max</label>
-                <input
+                <x-form.input-label for="maxMa" value="Max" :small="true" />
+                <x-form.input
                     id="maxMa"
                     type="number"
                     wire:model.lazy="maxMa"
                     min="0"
                     max="540"
                     step="0.1"
-                    class="no-spin w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
+                    class="no-spin"
                 />
             </div>
         </div>
@@ -68,46 +61,36 @@
 
     {{-- Environments --}}
     <div>
-        <span class="block text-sm font-medium mb-2">Environment</span>
-        <div class="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+        <x-form.label value="Environment" />
+        <div class="space-y-1.5 max-h-40 overflow-y-auto pr-1 mt-1">
             @foreach ($envTypeOptions as $value => $label)
-                <label class="flex items-center gap-2 cursor-pointer text-sm">
-                    <input
-                        type="checkbox"
-                        wire:model="envTypes"
-                        value="{{ $value }}"
-                        class="rounded border-[var(--color-border)] text-[var(--color-accent)]"
-                    />
-                    {{ $label }}
-                </label>
+                <x-form.checkbox
+                    wire:model="envTypes"
+                    :value="$value"
+                    :label="$label"
+                />
             @endforeach
         </div>
     </div>
 
     {{-- Country Codes --}}
     <div>
-        <label for="countryCodes" class="block text-sm font-medium mb-1">Country Codes</label>
-        <input
+        <x-form.input-label for="countryCodes" value="Country Codes" />
+        <x-form.input
             id="countryCodes"
-            type="text"
             wire:model.lazy="countryCodes"
             placeholder="e.g. US,CA,GB"
-            class="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
         />
     </div>
 
     {{-- Identification Quality --}}
     <div>
-        <label for="idQual" class="block text-sm font-medium mb-1">ID Quality</label>
-        <select
-            id="idQual"
-            wire:model="idQual"
-            class="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-sunken)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-muted)]"
-        >
+        <x-form.input-label for="idQual" value="ID Quality" />
+        <x-form.select id="idQual" wire:model="idQual">
             <option value="any">Any</option>
             <option value="certain">Certain</option>
             <option value="uncertain">Uncertain</option>
-        </select>
+        </x-form.select>
     </div>
 
     {{-- Bounding Box --}}
@@ -115,12 +98,9 @@
         <div class="rounded-md bg-[var(--color-accent-subtle)] border border-[var(--color-accent-muted)] p-3 text-xs space-y-1">
             <div class="flex items-center justify-between">
                 <span class="font-semibold text-[var(--color-accent)]">Bounding Box</span>
-                <button
-                    wire:click="clearBoundingBox"
-                    class="text-[var(--color-muted)] hover:text-[var(--color-danger)] transition-colors"
-                >
+                <x-form.button variant="ghost" size="sm" wire:click="clearBoundingBox">
                     &times; Clear
-                </button>
+                </x-form.button>
             </div>
             <p>Lng: {{ number_format($lngMin ?? 0, 3) }} &rarr; {{ number_format($lngMax ?? 0, 3) }}</p>
             <p>Lat: {{ number_format($latMin ?? 0, 3) }} &rarr; {{ number_format($latMax ?? 0, 3) }}</p>
@@ -132,11 +112,12 @@
     @endif
 
     {{-- Apply button --}}
-    <button
+    <x-form.button
+        variant="primary"
+        class="w-full"
         wire:click="applyFilters"
         wire:loading.attr="disabled"
         wire:target="applyFilters"
-        class="w-full rounded-md bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-[var(--color-text-on-accent)] hover:bg-[var(--color-accent-hover)] transition-colors disabled:opacity-60"
     >
         <span wire:loading.remove wire:target="applyFilters">Apply Filters</span>
         <span wire:loading wire:target="applyFilters" class="flex items-center justify-center gap-2">
@@ -146,6 +127,6 @@
             </svg>
             Loading&hellip;
         </span>
-    </button>
+    </x-form.button>
 
 </div>

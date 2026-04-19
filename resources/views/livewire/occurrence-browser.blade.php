@@ -21,32 +21,15 @@
 
     {{-- ─── Toolbar ────────────────────────────────────────────────────── --}}
     <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-raised)]">
-        {{-- Pagination --}}
-        <div class="flex items-center gap-3">
-            <button
-                wire:click="prevPage"
-                @disabled($offset <= 0)
-                class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium hover:bg-[var(--color-surface-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-                &larr; Prev
-            </button>
 
-            <span class="text-xs text-[var(--color-muted)]">
-                @if ($total > 0)
-                    Showing {{ $from }}&ndash;{{ $to }} of {{ number_format($total) }}
-                @else
-                    No results
-                @endif
-            </span>
-
-            <button
-                wire:click="nextPage"
-                @disabled($to >= $total)
-                class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium hover:bg-[var(--color-surface-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-                Next &rarr;
-            </button>
-        </div>
+        <x-pagination.pagination-bar
+            :from="$from"
+            :to="$to"
+            :total="$total"
+            :can-prev="$offset > 0"
+            :can-next="$to < $total"
+            :per-page="$perPage"
+        />
 
         {{-- Export --}}
         <a
@@ -55,6 +38,7 @@
         >
             Export CSV
         </a>
+
     </div>
 
     {{-- ─── Error state ────────────────────────────────────────────────── --}}

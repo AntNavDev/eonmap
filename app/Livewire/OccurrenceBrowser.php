@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class OccurrenceBrowser extends Component
 {
-    public int $limit = 100;
+    public int $perPage = 25;
 
     public int $offset = 0;
 
@@ -123,7 +123,7 @@ class OccurrenceBrowser extends Component
                 lngMax: $this->filterLngMax,
                 latMin: $this->filterLatMin,
                 latMax: $this->filterLatMax,
-                limit: $this->limit,
+                limit: $this->perPage,
                 offset: $this->offset,
             );
 
@@ -156,7 +156,7 @@ class OccurrenceBrowser extends Component
      */
     public function nextPage(): void
     {
-        $this->offset += $this->limit;
+        $this->offset += $this->perPage;
         $this->loadOccurrences();
     }
 
@@ -165,7 +165,16 @@ class OccurrenceBrowser extends Component
      */
     public function prevPage(): void
     {
-        $this->offset = max(0, $this->offset - $this->limit);
+        $this->offset = max(0, $this->offset - $this->perPage);
+        $this->loadOccurrences();
+    }
+
+    /**
+     * Reset to page 1 and reload when the per-page value changes.
+     */
+    public function updatedPerPage(): void
+    {
+        $this->offset = 0;
         $this->loadOccurrences();
     }
 
@@ -208,8 +217,9 @@ class OccurrenceBrowser extends Component
     public function render(): View
     {
         return view('livewire.occurrence-browser', [
-            'from' => $this->total > 0 ? $this->offset + 1 : 0,
-            'to' => min($this->offset + $this->limit, $this->total),
+            'from'      => $this->total > 0 ? $this->offset + 1 : 0,
+            'to'        => min($this->offset + $this->perPage, $this->total),
+            'perPage'   => $this->perPage,
             'exportUrl' => $this->exportUrl(),
         ]);
     }

@@ -30,18 +30,12 @@
                     Eonmap
                 </a>
                 <div class="flex items-center gap-6">
-                    <a
-                        href="{{ route('map') }}"
-                        class="text-sm font-medium transition-colors {{ request()->routeIs('map') ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-text)]' }}"
-                    >
+                    <x-nav.nav-link href="{{ route('map') }}" :active="request()->routeIs('map')">
                         Map
-                    </a>
-                    <a
-                        href="{{ route('browse') }}"
-                        class="text-sm font-medium transition-colors {{ request()->routeIs('browse') ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-text)]' }}"
-                    >
+                    </x-nav.nav-link>
+                    <x-nav.nav-link href="{{ route('browse') }}" :active="request()->routeIs('browse')">
                         Browse
-                    </a>
+                    </x-nav.nav-link>
                     <livewire:recently-viewed />
                     <x-theme-toggle />
                 </div>
