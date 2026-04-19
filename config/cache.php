@@ -1,5 +1,7 @@
 <?php
 
+use App\DTOs\OccurrenceCollection;
+use App\DTOs\OccurrenceDTO;
 use Illuminate\Support\Str;
 
 return [
@@ -125,6 +127,9 @@ return [
     |
     */
 
-    'serializable_classes' => false,
+    'serializable_classes' => [
+        OccurrenceCollection::class,
+        OccurrenceDTO::class,
+    ],
 
 ];

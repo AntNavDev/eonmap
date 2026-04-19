@@ -23,7 +23,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-bg text-text antialiased">
-    <nav class="border-b border-border bg-surface">
+    <nav class="border-b border-border bg-surface" aria-label="Main navigation">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
                 <a href="/" class="text-lg font-semibold tracking-tight text-text">

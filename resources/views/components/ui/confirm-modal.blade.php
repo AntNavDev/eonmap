@@ -54,7 +54,7 @@
     >
         <x-ui.modal :title="$title" size="sm">
 
-            <p class="text-sm text-[var(--color-text)]">{{ $message }}</p>
+            <p class="text-sm text-text">{{ $message }}</p>
 
             <x-slot:footer>
                 @if($onCancel)

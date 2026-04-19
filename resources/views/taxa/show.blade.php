@@ -18,7 +18,7 @@
             class="inline-flex items-center gap-1 text-sm text-muted hover:text-text transition-colors"
         >
             View on PBDB
-            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
@@ -38,7 +38,7 @@
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-muted mb-6">
                     Occurrences by Geologic Period
                 </h2>
-                <canvas id="period-chart" class="max-h-80"></canvas>
+                <canvas id="period-chart" class="max-h-80" role="img" aria-label="Bar chart of occurrence counts by geologic period for {{ $name }}"></canvas>
             </div>
 
             {{-- ─── Section 2: Geologic timeline ──────────────────────── --}}
@@ -49,7 +49,7 @@
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-muted mb-6">
                     Temporal Range
                 </h2>
-                <div id="taxon-timeline" class="h-32"></div>
+                <div id="taxon-timeline" class="h-32" role="img" aria-label="Geologic timeline showing the temporal range of {{ $name }}"></div>
             </div>
 
             {{-- ─── Section 3: Geographic distribution ────────────────── --}}
@@ -61,6 +61,8 @@
                     x-data="taxonMiniMap({ occurrences: @js(array_values($occurrences->items)) })"
                     id="taxon-map"
                     class="h-96 w-full rounded-lg overflow-hidden"
+                    role="application"
+                    aria-label="Map showing geographic distribution of {{ $name }}"
                 ></div>
             </div>
 
