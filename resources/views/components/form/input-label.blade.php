@@ -5,9 +5,7 @@
 ])
 
 @php
-$textClass = $small
-    ? 'text-xs text-[var(--color-muted)]'
-    : 'text-sm font-medium text-[var(--color-text)]';
+$textClass = $small ? 'text-xs text-muted' : 'text-sm font-medium text-text';
 @endphp
 
 <label

@@ -6,7 +6,7 @@
 @php
 $alignClass = $align === 'left' ? 'left-0' : 'right-0';
 $widths = [
-    'sm' => 'w-48',
+    'sm' => 'w-36',
     'md' => 'w-64',
     'lg' => 'w-80',
     'xl' => 'w-96',
@@ -34,7 +34,7 @@ $widthClass = $widths[$width] ?? $widths['md'];
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="absolute {{ $alignClass }} z-50 mt-2 {{ $widthClass }} rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-lg"
+        class="absolute {{ $alignClass }} z-50 mt-2 {{ $widthClass }} rounded-lg border border-border bg-surface py-1 shadow-lg"
         role="menu"
     >
         {{ $slot }}

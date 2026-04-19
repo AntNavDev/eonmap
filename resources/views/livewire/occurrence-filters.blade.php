@@ -1,7 +1,7 @@
 <div class="p-4 space-y-5">
 
     <div class="flex items-center justify-between">
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">Filters</h2>
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-muted">Filters</h2>
         <x-form.button variant="ghost" size="sm" wire:click="resetFilters">
             Reset
         </x-form.button>
@@ -25,7 +25,7 @@
             wire:model.lazy="interval"
             placeholder="e.g. Cretaceous"
         />
-        <p class="mt-1 text-xs text-[var(--color-muted)]">Interval name as used by PBDB</p>
+        <p class="mt-1 text-xs text-muted">Interval name as used by PBDB</p>
     </div>
 
     {{-- Age Range --}}
@@ -95,9 +95,9 @@
 
     {{-- Bounding Box --}}
     @if ($lngMin !== null || $lngMax !== null || $latMin !== null || $latMax !== null)
-        <div class="rounded-md bg-[var(--color-accent-subtle)] border border-[var(--color-accent-muted)] p-3 text-xs space-y-1">
+        <div class="rounded-md bg-accent-subtle border border-accent-muted p-3 text-xs space-y-1">
             <div class="flex items-center justify-between">
-                <span class="font-semibold text-[var(--color-accent)]">Bounding Box</span>
+                <span class="font-semibold text-accent">Bounding Box</span>
                 <x-form.button variant="ghost" size="sm" wire:click="clearBoundingBox">
                     &times; Clear
                 </x-form.button>
@@ -106,7 +106,7 @@
             <p>Lat: {{ number_format($latMin ?? 0, 3) }} &rarr; {{ number_format($latMax ?? 0, 3) }}</p>
         </div>
     @else
-        <p class="text-xs text-[var(--color-muted)]">
+        <p class="text-xs text-muted">
             Use the rectangle tool on the map to set a bounding box.
         </p>
     @endif

@@ -23,11 +23,11 @@ $sizeClass = $sizes[$size] ?? $sizes['md'];
       $footer — static footer (action buttons, etc.)
       $close  — optional close button in the header
 --}}
-<div class="relative flex w-full {{ $sizeClass }} flex-col rounded-xl bg-[var(--color-surface)] shadow-xl" style="max-height: 90vh">
+<div class="relative flex w-full {{ $sizeClass }} flex-col rounded-xl bg-surface shadow-xl" style="max-height: 90vh">
 
     {{-- Static header --}}
-    <div class="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
-        <h3 class="text-base font-semibold text-[var(--color-text)]">{{ $title }}</h3>
+    <div class="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
+        <h3 class="text-base font-semibold text-text">{{ $title }}</h3>
         @isset($close)
             {{ $close }}
         @endisset
@@ -40,7 +40,7 @@ $sizeClass = $sizes[$size] ?? $sizes['md'];
 
     {{-- Static footer --}}
     @isset($footer)
-        <div class="flex shrink-0 items-center justify-end gap-3 border-t border-[var(--color-border)] px-6 py-4">
+        <div class="flex shrink-0 items-center justify-end gap-3 border-t border-border px-6 py-4">
             {{ $footer }}
         </div>
     @endisset

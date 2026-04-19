@@ -2,7 +2,7 @@
     x-data
     @click="$store.theme.toggle()"
     :aria-label="$store.theme.current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
-    class="rounded-md p-2 text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)] transition-colors"
+    class="rounded-md p-2 text-muted hover:bg-surface-hover hover:text-text transition-colors"
 >
     {{-- Sun icon — shown in dark mode --}}
     <svg x-show="$store.theme.current === 'dark'" xmlns="http://www.w3.org/2000/svg"

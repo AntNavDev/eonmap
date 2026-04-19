@@ -35,7 +35,7 @@ class OccurrenceBrowserTest extends TestCase
             ->assertDispatched('browser-data-loaded');
     }
 
-    public function test_next_page_increments_offset_by_limit(): void
+    public function test_next_page_increments_offset_by_per_page(): void
     {
         $this->mockService(new OccurrenceCollection(items: [], total: 0, offset: 0));
 
@@ -43,7 +43,7 @@ class OccurrenceBrowserTest extends TestCase
             ->set('filterBaseName', 'Dinosauria')
             ->assertSet('offset', 0)
             ->call('nextPage')
-            ->assertSet('offset', 100);
+            ->assertSet('offset', 25);
     }
 
     public function test_prev_page_decrements_offset_and_floors_at_zero(): void
@@ -52,11 +52,30 @@ class OccurrenceBrowserTest extends TestCase
 
         Livewire::test(OccurrenceBrowser::class)
             ->set('filterBaseName', 'Dinosauria')
-            ->set('offset', 100)
+            ->set('offset', 25)
             ->call('prevPage')
             ->assertSet('offset', 0)
             ->call('prevPage')
             ->assertSet('offset', 0); // cannot go below zero
+    }
+
+    public function test_updated_per_page_resets_offset_and_reloads(): void
+    {
+        $this->mockService(new OccurrenceCollection(items: [], total: 0, offset: 0));
+
+        Livewire::test(OccurrenceBrowser::class)
+            ->set('filterBaseName', 'Dinosauria')
+            ->set('offset', 50)
+            ->set('perPage', 50)
+            ->assertSet('offset', 0)
+            ->assertSet('perPage', 50);
+    }
+
+    public function test_updated_per_page_rejects_values_outside_allowed_set(): void
+    {
+        Livewire::test(OccurrenceBrowser::class)
+            ->set('perPage', 9999)
+            ->assertSet('perPage', 25);
     }
 
     public function test_set_sort_toggles_direction_on_repeated_calls_with_same_field(): void
