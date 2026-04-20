@@ -14,8 +14,8 @@ A public fossil occurrence explorer built on the [Paleobiology Database (PBDB)](
 
 | Layer | Technology |
 |---|---|
-| Framework | Laravel 13 / PHP 8.3+ |
-| Frontend | Livewire 3, Alpine.js, Tailwind CSS v4 |
+| Framework | Laravel / PHP |
+| Frontend | Livewire, Alpine.js, Tailwind CSS |
 | Maps | Leaflet, leaflet.markercluster, leaflet-draw, leaflet.heat |
 | Charts | Chart.js, vis-timeline |
 | Data source | Paleobiology Database public API |
