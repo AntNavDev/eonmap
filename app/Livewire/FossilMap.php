@@ -18,6 +18,12 @@ class FossilMap extends Component
     /** Set to true once the user has submitted filters at least once. */
     public bool $filtersApplied = false;
 
+    /** Number of occurrences returned in the last query (may be less than $resultTotal). */
+    public int $resultCount = 0;
+
+    /** Total occurrences matching the last query according to PBDB (records_found). */
+    public int $resultTotal = 0;
+
     /**
      * On initial mount, fire an empty occurrences-loaded so the Leaflet map
      * initialises without a loading state.
@@ -67,6 +73,8 @@ class FossilMap extends Component
             );
 
             $collection = $service->getOccurrences($query);
+            $this->resultCount = count($collection->items);
+            $this->resultTotal = $collection->total;
 
             $this->dispatch('occurrences-loaded', occurrences: $collection->items);
         } catch (ApiException $e) {
@@ -79,6 +87,8 @@ class FossilMap extends Component
     {
         return view('livewire.fossil-map', [
             'hasFilters' => $this->filtersApplied,
+            'resultCount' => $this->resultCount,
+            'resultTotal' => $this->resultTotal,
         ]);
     }
 }

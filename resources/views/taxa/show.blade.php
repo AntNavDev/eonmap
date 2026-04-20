@@ -11,6 +11,12 @@
             {{ number_format($totalCount) }} occurrences
         </span>
 
+        @if ($fetchedCount < $totalCount)
+            <span class="text-sm text-muted">
+                (charts based on first {{ number_format($fetchedCount) }})
+            </span>
+        @endif
+
         <a
             href="https://paleobiodb.org/classic/checkTaxonInfo?taxon_name={{ urlencode($name) }}"
             target="_blank"

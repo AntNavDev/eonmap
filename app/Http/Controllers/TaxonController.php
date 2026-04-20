@@ -32,7 +32,8 @@ class TaxonController extends Controller
             $occurrences = new OccurrenceCollection(items: [], total: 0, offset: 0);
         }
 
-        $totalCount = count($occurrences->items);
+        $totalCount = $occurrences->total ?: count($occurrences->items);
+        $fetchedCount = count($occurrences->items);
 
         // Compute classification breakdown from the occurrence set.
         $byPhylum = [];
@@ -59,6 +60,7 @@ class TaxonController extends Controller
             'name',
             'occurrences',
             'totalCount',
+            'fetchedCount',
             'byPhylum',
             'byClass',
             'byEnvironment',

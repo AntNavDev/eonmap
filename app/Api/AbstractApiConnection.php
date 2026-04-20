@@ -34,7 +34,7 @@ abstract class AbstractApiConnection implements ApiConnectionInterface
         $url = $this->baseUrl.$endpoint;
 
         try {
-            $response = Http::get($url, $params);
+            $response = Http::timeout(60)->get($url, $params);
         } catch (ConnectionException $e) {
             Log::channel('api')->error('API connection failed', [
                 'url' => $url,
