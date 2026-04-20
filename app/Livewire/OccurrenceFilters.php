@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Api\Queries\OccurrenceQuery;
+use App\Presets\SearchPreset;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -35,6 +36,11 @@ class OccurrenceFilters extends Component
     public ?float $latMax = null;
 
     /**
+     * When true, shows a free-text input for baseName instead of the curated select.
+     */
+    public bool $customTaxon = false;
+
+    /**
      * All PBDB envtype values available for filtering.
      *
      * @return array<string, string>
@@ -59,12 +65,137 @@ class OccurrenceFilters extends Component
     }
 
     /**
+     * Curated organism groups shown in the taxon select.
+     * Keys are PBDB base_name values; values are human-readable labels.
+     *
+     * @return array<string, string>
+     */
+    public static function taxonOptions(): array
+    {
+        return [
+            '' => 'All organisms',
+            'Dinosauria' => 'Dinosaurs',
+            'Mammalia' => 'Mammals',
+            'Reptilia' => 'Reptiles',
+            'Aves' => 'Birds',
+            'Amphibia' => 'Amphibians',
+            'Actinopterygii' => 'Ray-finned Fish',
+            'Chondrichthyes' => 'Sharks & Rays',
+            'Trilobita' => 'Trilobites',
+            'Ammonoidea' => 'Ammonites',
+            'Tyrannosauridae' => 'Tyrannosaurids (T. rex family)',
+            'Bivalvia' => 'Bivalves (Clams & Oysters)',
+            'Echinoidea' => 'Sea Urchins',
+            'Plantae' => 'Plants',
+            'Insecta' => 'Insects',
+        ];
+    }
+
+    /**
+     * Major geological intervals shown in the interval select.
+     * Keys are PBDB interval names; values include the age range for context.
+     *
+     * @return array<string, string>
+     */
+    public static function intervalOptions(): array
+    {
+        return [
+            '' => 'All time',
+            'Quaternary' => 'Quaternary (2.6 Ma – present)',
+            'Neogene' => 'Neogene (23–2.6 Ma)',
+            'Paleogene' => 'Paleogene (66–23 Ma)',
+            'Cretaceous' => 'Cretaceous (145–66 Ma)',
+            'Jurassic' => 'Jurassic (201–145 Ma)',
+            'Triassic' => 'Triassic (252–201 Ma)',
+            'Permian' => 'Permian (299–252 Ma)',
+            'Carboniferous' => 'Carboniferous (359–299 Ma)',
+            'Devonian' => 'Devonian (419–359 Ma)',
+            'Silurian' => 'Silurian (444–419 Ma)',
+            'Ordovician' => 'Ordovician (485–444 Ma)',
+            'Cambrian' => 'Cambrian (541–485 Ma)',
+        ];
+    }
+
+    /**
+     * Major fossil-bearing countries shown in the country select.
+     * Keys are ISO 3166-1 alpha-2 codes; values are country names.
+     *
+     * @return array<string, string>
+     */
+    public static function countryOptions(): array
+    {
+        return [
+            '' => 'All countries',
+            'US' => 'United States',
+            'CA' => 'Canada',
+            'CN' => 'China',
+            'DE' => 'Germany',
+            'FR' => 'France',
+            'GB' => 'United Kingdom',
+            'AR' => 'Argentina',
+            'AU' => 'Australia',
+            'MN' => 'Mongolia',
+            'BR' => 'Brazil',
+            'RU' => 'Russia',
+            'ES' => 'Spain',
+            'MA' => 'Morocco',
+            'ZA' => 'South Africa',
+            'MX' => 'Mexico',
+            'IT' => 'Italy',
+            'PL' => 'Poland',
+        ];
+    }
+
+    /**
      * Fired after any property is updated server-side.
      * Notifies parent components that filter state has changed.
      */
     public function updated(string $name): void
     {
         $this->dispatch('filtersChanged');
+    }
+
+    /**
+     * Populate all filter fields from a named preset and immediately apply.
+     * Does nothing if the ID is not recognised.
+     */
+    public function loadPreset(string $id): void
+    {
+        $preset = SearchPreset::find($id);
+
+        if ($preset === null) {
+            return;
+        }
+
+        $this->resetFilters();
+
+        $this->baseName = $preset->baseName ?? '';
+        $this->interval = $preset->interval ?? '';
+        $this->minMa = $preset->minMa ?? 0;
+        $this->maxMa = $preset->maxMa ?? 540;
+        $this->envTypes = $preset->envTypes;
+        $this->countryCodes = $preset->countryCodes ?? '';
+        $this->customTaxon = false;
+
+        $this->applyFilters();
+    }
+
+    /**
+     * Switch the taxon field to free-text mode and clear the current value.
+     */
+    public function enableCustomTaxon(): void
+    {
+        $this->customTaxon = true;
+        $this->baseName = '';
+    }
+
+    /**
+     * Switch the taxon field back to the curated select and clear the value.
+     */
+    public function disableCustomTaxon(): void
+    {
+        $this->customTaxon = false;
+        $this->baseName = '';
     }
 
     /**
@@ -125,6 +256,7 @@ class OccurrenceFilters extends Component
         $this->lngMax = null;
         $this->latMin = null;
         $this->latMax = null;
+        $this->customTaxon = false;
         $this->dispatch('filters-reset');
     }
 
@@ -173,6 +305,10 @@ class OccurrenceFilters extends Component
     {
         return view('livewire.occurrence-filters', [
             'envTypeOptions' => self::envTypeOptions(),
+            'taxonOptions' => self::taxonOptions(),
+            'intervalOptions' => self::intervalOptions(),
+            'countryOptions' => self::countryOptions(),
+            'presets' => SearchPreset::all(),
         ]);
     }
 }
