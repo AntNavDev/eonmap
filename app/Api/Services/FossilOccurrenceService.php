@@ -28,8 +28,10 @@ class FossilOccurrenceService implements FossilOccurrenceServiceInterface
         return Cache::remember($cacheKey, 3600, function () use ($params) {
             $response = $this->connection->get('/occs/list', $params);
             $records = $response['records'] ?? [];
+            $total = (int) ($response['records_found'] ?? count($records));
+            $offset = (int) ($params['offset'] ?? 0);
 
-            return OccurrenceCollection::fromArray($records);
+            return OccurrenceCollection::fromArray($records, $total, $offset);
         });
     }
 }

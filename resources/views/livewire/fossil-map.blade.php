@@ -31,6 +31,19 @@
             </div>
         @endunless
 
+        {{-- Result count indicator — shown after filters are applied --}}
+        @if ($hasFilters && $resultCount > 0)
+            <div class="absolute bottom-8 right-3 z-[1000]">
+                <div class="rounded-md border border-border bg-surface/90 backdrop-blur-sm px-3 py-1.5 text-xs text-muted shadow-sm">
+                    @if ($resultTotal > $resultCount)
+                        Showing {{ number_format($resultCount) }} of {{ number_format($resultTotal) }} occurrences
+                    @else
+                        {{ number_format($resultCount) }} {{ Str::plural('occurrence', $resultCount) }}
+                    @endif
+                </div>
+            </div>
+        @endif
+
         {{-- Floating map controls --}}
         <div class="absolute top-3 right-3 z-[1000] flex flex-col gap-2">
 
