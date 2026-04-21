@@ -77,15 +77,13 @@ The app is available at `http://localhost`.
 
 Data is fetched from PBDB through an isolated API layer (`app/Api/`) and cached for one hour. Livewire components handle filtering state server-side; Alpine.js handles map and chart rendering client-side.
 
-See `app/Api/CLAUDE.md` for the full API layer documentation.
-
 ## Testing
 
 ```bash
 ./vendor/bin/sail php artisan test
 ```
 
-Tests use an in-memory SQLite database. All PBDB HTTP calls are stubbed — no network access required. See `testing.md` for conventions.
+Tests use an in-memory SQLite database. All PBDB HTTP calls are stubbed — no network access required.
 
 ## CI
 
