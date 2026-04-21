@@ -51,8 +51,23 @@ The property-to-PBDB-param mapping lives in `toQueryParams()` — update it ther
 ## AbstractApiConnection
 
 - Appends `.json` if the endpoint doesn't already end with it
+- Sets `timeout(60)` — PBDB can be slow; the default 30 s timeout causes cURL errors on larger queries
+- Sends `User-Agent: Eonmap/1.0 (fossil occurrence explorer; https://paleobiodb.org)` — **PBDB returns 403 Forbidden to requests without a User-Agent when running inside a Docker container.** This header is mandatory and must not be removed.
 - Throws `ApiException` on connection failure (`ConnectionException`) or non-2xx response
 - Returns `response->json()` as `array<mixed>`
+
+## PBDB Response Shape
+
+PBDB uses compact vocabulary (short field names). Key fields to be aware of:
+
+| Field | Type | Notes |
+|---|---|---|
+| `oid` | `"occ:41524"` | Prefixed string — use `parseId()` in `OccurrenceDTO`, never cast directly with `(int)` |
+| `cid` | `"col:3257"` | Same prefix format as `oid` |
+| `rnk` | `int` | Numeric rank code (5 = species, 10 = genus, 19 = order, etc.) — mapped to labels in `OccurrenceDTO::RANK_LABELS` |
+| `records_found` | `int` | Total matching records — **not** the number of records returned. Map this to `OccurrenceCollection::$total`. |
+
+Do not cast `oid`/`cid` directly with `(int)` — the prefix makes `(int) "occ:41524"` = `0`, breaking all occurrence links. Use `OccurrenceDTO::parseId()` which strips the type prefix first.
 
 ## Caching
 

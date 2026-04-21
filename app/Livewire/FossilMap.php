@@ -76,7 +76,24 @@ class FossilMap extends Component
             $this->resultCount = count($collection->items);
             $this->resultTotal = $collection->total;
 
-            $this->dispatch('occurrences-loaded', occurrences: $collection->items);
+            $occurrences = array_map(static fn ($dto) => [
+                'occurrenceNo' => $dto->occurrenceNo,
+                'acceptedName' => $dto->acceptedName,
+                'acceptedRank' => $dto->acceptedRank,
+                'lat' => $dto->lat,
+                'lng' => $dto->lng,
+                'earlyInterval' => $dto->earlyInterval,
+                'lateInterval' => $dto->lateInterval,
+                'maxMa' => $dto->maxMa,
+                'minMa' => $dto->minMa,
+                'country' => $dto->country,
+                'formation' => $dto->formation,
+                'environment' => $dto->environment,
+                'paleolat' => $dto->paleolat,
+                'paleolng' => $dto->paleolng,
+            ], $collection->items);
+
+            $this->dispatch('occurrences-loaded', occurrences: $occurrences);
         } catch (ApiException $e) {
             $this->loadError = $e->getMessage();
             $this->dispatch('occurrences-error', message: $e->getMessage());

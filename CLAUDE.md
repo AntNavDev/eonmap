@@ -160,3 +160,62 @@ All `<input>`, `<select>`, and `<textarea>` components use `text-base` (1rem = 1
 ### Pagination
 
 Pagination components are Livewire-coupled. `pagination-selector` accepts Livewire method names as `prev-action` / `next-action` string props. `per-page-selector` receives `wire:model.live` via `$attributes`. Allowed per-page values: 25, 50, 100 — enforced server-side in `updatedPerPage()`.
+
+---
+
+## Livewire + Alpine.js Integration Rules
+
+**Do not assume Alpine state persists across Livewire re-renders.** Every time a Livewire component re-renders, its DOM is morphed. Alpine components inside the morphed region are destroyed and re-initialized unless protected.
+
+### Rule 1 — Use `wire:ignore` for any Alpine-managed or third-party DOM
+
+Any element that owns client-side state (Leaflet map, Tabulator table, Chart.js canvas, TomSelect input) **must** have `wire:ignore` on its root. Without it, Livewire's morphdom pass will replace the element, orphaning the JS object and corrupting the UI.
+
+```blade
+<div x-data="fossilMap" wire:ignore class="relative">
+    <div id="eonmap-map" class="w-full h-full"></div>
+    ...
+</div>
+```
+
+### Rule 2 — Use `$wire.*` instead of Blade conditionals inside `wire:ignore`'d elements
+
+Blade conditionals (`@if`, `@unless`) are server-rendered. Inside a `wire:ignore` subtree they will never update after the first render. Use Alpine's `$wire` magic property instead — it reads Livewire component properties reactively without any DOM morphing.
+
+```blade
+{{-- WRONG: Blade conditional inside wire:ignore — never updates after mount --}}
+@if ($hasFilters)
+    <div class="result-count">...</div>
+@endif
+
+{{-- CORRECT: $wire reads live Livewire state, no re-render needed --}}
+<div x-show="$wire.filtersApplied">...</div>
+<span x-text="$wire.resultCount.toLocaleString()"></span>
+```
+
+### Rule 3 — Alpine components must be imported in `app.js`, not pushed via `@push('scripts')`
+
+`alpine:init` fires during `Livewire.start()` inside `app.js`. Any component registered in a page-level `@push('scripts')` block loads after `alpine:init` has already fired — Alpine will not retry failed `x-data` lookups, leaving the component silently broken.
+
+```js
+// app.js — correct order
+import './browse.js';   // registers Alpine components BEFORE Livewire.start()
+Livewire.start();
+```
+
+### Rule 4 — Dispatch plain arrays from Livewire, never PHP objects
+
+Livewire's `$this->dispatch()` serialises its arguments to JSON. PHP DTOs and objects do not serialise reliably — properties are lost or mangled. Always `array_map` to plain arrays before dispatching.
+
+```php
+// WRONG — DTO properties may not survive serialisation
+$this->dispatch('occurrences-loaded', occurrences: $collection->items);
+
+// CORRECT — plain array with only the keys the JS side needs
+$occurrences = array_map(static fn ($dto) => [
+    'lat' => $dto->lat,
+    'lng' => $dto->lng,
+    // ...
+], $collection->items);
+$this->dispatch('occurrences-loaded', occurrences: $occurrences);
+```
