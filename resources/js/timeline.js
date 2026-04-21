@@ -66,11 +66,11 @@ export function taxonTimeline({ occurrences, name }) {
                 showMinorLabels: true,
                 format: {
                     majorLabels: (date) => {
-                        const ma = Math.round(-date.getTime() / 1000);
+                        const ma = Math.round(-date.valueOf() / 1000);
                         return ma + ' Ma';
                     },
                     minorLabels: (date) => {
-                        const ma = Math.round(-date.getTime() / 1000);
+                        const ma = Math.round(-date.valueOf() / 1000);
                         return ma;
                     },
                 },
