@@ -14,3 +14,4 @@ Route::get('/map', [MapController::class, 'index'])->name('map');
 Route::get('/browse', [BrowseController::class, 'index'])->name('browse');
 Route::get('/occurrences/{id}', [OccurrenceController::class, 'show']);
 Route::get('/taxa/{name}', [TaxonController::class, 'show']);
+Route::view('/guide', 'guide.index')->name('guide');
