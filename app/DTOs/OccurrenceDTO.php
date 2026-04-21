@@ -54,16 +54,65 @@ class OccurrenceDTO
     ) {}
 
     /**
+     * Map PBDB compact-vocabulary numeric rank codes to human-readable labels.
+     * Source: https://paleobiodb.org/data1.2/taxa/ranks.json
+     *
+     * @var array<int, string>
+     */
+    private const RANK_LABELS = [
+        3 => 'subspecies',
+        5 => 'species',
+        9 => 'subgenus',
+        10 => 'genus',
+        13 => 'tribe',
+        14 => 'subfamily',
+        15 => 'family',
+        16 => 'superfamily',
+        17 => 'infraorder',
+        18 => 'suborder',
+        19 => 'order',
+        20 => 'superorder',
+        21 => 'infraclass',
+        22 => 'subclass',
+        23 => 'class',
+        24 => 'superclass',
+        25 => 'subphylum',
+        26 => 'phylum',
+        27 => 'superphylum',
+        29 => 'kingdom',
+    ];
+
+    /**
+     * Parse a PBDB compact-vocabulary ID field, which may be a bare integer
+     * or a prefixed string like "occ:41524" or "col:3257".
+     */
+    private static function parseId(mixed $value): int
+    {
+        $str = (string) $value;
+
+        if (str_contains($str, ':')) {
+            return (int) explode(':', $str, 2)[1];
+        }
+
+        return (int) $str;
+    }
+
+    /**
      * Create from a PBDB compact-vocabulary record array.
      *
      * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): static
     {
+        $rawRank = $data['rnk'];
+        $acceptedRank = is_int($rawRank)
+            ? (self::RANK_LABELS[$rawRank] ?? (string) $rawRank)
+            : (string) $rawRank;
+
         return new static(
-            occurrenceNo: (int) $data['oid'],
+            occurrenceNo: self::parseId($data['oid']),
             acceptedName: $data['tna'],
-            acceptedRank: $data['rnk'],
+            acceptedRank: $acceptedRank,
             phylum: $data['phl'] ?? null,
             class: $data['cll'] ?? null,
             order: $data['odl'] ?? null,
@@ -79,7 +128,7 @@ class OccurrenceDTO
             state: $data['stp'] ?? null,
             formation: $data['sfm'] ?? null,
             environment: $data['env'] ?? null,
-            collectionNo: (int) $data['cid'],
+            collectionNo: self::parseId($data['cid']),
             paleolat: isset($data['pla']) ? (float) $data['pla'] : null,
             paleolng: isset($data['plo']) ? (float) $data['plo'] : null,
         );

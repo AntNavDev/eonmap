@@ -34,7 +34,9 @@ abstract class AbstractApiConnection implements ApiConnectionInterface
         $url = $this->baseUrl.$endpoint;
 
         try {
-            $response = Http::timeout(60)->get($url, $params);
+            $response = Http::timeout(60)
+                ->withHeaders(['User-Agent' => 'Eonmap/1.0 (fossil occurrence explorer; https://paleobiodb.org)'])
+                ->get($url, $params);
         } catch (ConnectionException $e) {
             Log::channel('api')->error('API connection failed', [
                 'url' => $url,

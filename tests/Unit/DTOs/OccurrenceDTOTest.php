@@ -100,4 +100,136 @@ class OccurrenceDTOTest extends TestCase
         $this->assertEqualsWithDelta(46.123, $dto->lat, 0.0001);
         $this->assertEqualsWithDelta(-104.456, $dto->lng, 0.0001);
     }
+
+    /**
+     * PBDB returns oid/cid as prefixed strings like "occ:41524" and "col:3257".
+     * Casting these directly with (int) yields 0, breaking all occurrence links.
+     */
+    public function test_from_array_parses_prefixed_oid_format(): void
+    {
+        $record = array_merge($this->fullRecord, ['oid' => 'occ:41524']);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame(41524, $dto->occurrenceNo);
+    }
+
+    public function test_from_array_parses_prefixed_cid_format(): void
+    {
+        $record = array_merge($this->fullRecord, ['cid' => 'col:3257']);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame(3257, $dto->collectionNo);
+    }
+
+    public function test_from_array_parses_both_prefixed_ids_in_same_record(): void
+    {
+        $record = array_merge($this->fullRecord, [
+            'oid' => 'occ:41524',
+            'cid' => 'col:3257',
+        ]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame(41524, $dto->occurrenceNo);
+        $this->assertSame(3257, $dto->collectionNo);
+    }
+
+    /**
+     * PBDB returns rnk as a numeric code (e.g. 5 = species, 10 = genus).
+     * Passing the int directly to a string-typed property causes a TypeError.
+     */
+    public function test_from_array_maps_integer_rank_5_to_species(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 5]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('species', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_integer_rank_10_to_genus(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 10]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('genus', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_integer_rank_15_to_family(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 15]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('family', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_integer_rank_19_to_order(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 19]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('order', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_integer_rank_23_to_class(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 23]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('class', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_integer_rank_26_to_phylum(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 26]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('phylum', $dto->acceptedRank);
+    }
+
+    public function test_from_array_falls_back_to_string_for_unknown_integer_rank(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 99]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('99', $dto->acceptedRank);
+    }
+
+    public function test_from_array_preserves_string_rank_unchanged(): void
+    {
+        $record = array_merge($this->fullRecord, ['rnk' => 'clade']);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertSame('clade', $dto->acceptedRank);
+    }
+
+    public function test_from_array_maps_paleolat_and_paleolng(): void
+    {
+        $record = array_merge($this->fullRecord, [
+            'pla' => '55.3',
+            'plo' => '-112.7',
+        ]);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertEqualsWithDelta(55.3, $dto->paleolat, 0.0001);
+        $this->assertEqualsWithDelta(-112.7, $dto->paleolng, 0.0001);
+    }
+
+    public function test_paleolat_and_paleolng_are_null_when_absent(): void
+    {
+        $dto = OccurrenceDTO::fromArray($this->fullRecord);
+
+        $this->assertNull($dto->paleolat);
+        $this->assertNull($dto->paleolng);
+    }
 }

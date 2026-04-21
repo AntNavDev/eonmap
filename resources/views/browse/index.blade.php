@@ -4,6 +4,4 @@
     <livewire:occurrence-browser />
 @endsection
 
-@push('scripts')
-    @vite('resources/js/browse.js')
-@endpush
+{{-- browse.js is bundled in app.js so no separate script push needed --}}
