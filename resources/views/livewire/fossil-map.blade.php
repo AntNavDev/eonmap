@@ -61,7 +61,7 @@
             {{-- Heatmap toggle --}}
             <button
                 x-on:click="toggleHeatmap()"
-                x-bind:class="heatmapMode ? 'bg-accent text-white' : 'bg-surface text-text'"
+                x-bind:class="heatmapMode ? 'bg-accent text-on-accent' : 'bg-surface text-text'"
                 x-bind:aria-pressed="heatmapMode"
                 class="rounded-md border border-border px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
                 aria-label="Toggle heatmap"
@@ -72,7 +72,7 @@
             {{-- Paleocoordinate toggle --}}
             <button
                 x-on:click="togglePaleoMode()"
-                x-bind:class="paleoMode ? 'bg-accent text-white' : 'bg-surface text-text'"
+                x-bind:class="paleoMode ? 'bg-accent text-on-accent' : 'bg-surface text-text'"
                 x-bind:aria-pressed="paleoMode"
                 class="rounded-md border border-border px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
                 aria-label="Toggle paleocoordinates"

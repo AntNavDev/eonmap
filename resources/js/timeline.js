@@ -20,13 +20,19 @@ function maToDate(ma) {
  * Alpine component that renders a vis-timeline showing the full temporal
  * range of a taxon across all its occurrences.
  *
+ * Re-triggers a timeline redraw when the data-theme attribute changes so
+ * vis-timeline recalculates any internally-computed dimensions.
+ *
  * @param {{ occurrences: Array, name: string }} params
  */
 export function taxonTimeline({ occurrences, name }) {
     return {
         timeline: null,
+        observer: null,
 
         destroy() {
+            this.observer?.disconnect();
+            this.observer = null;
             this.timeline?.destroy();
             this.timeline = null;
         },
@@ -74,6 +80,16 @@ export function taxonTimeline({ occurrences, name }) {
                         return ma;
                     },
                 },
+            });
+
+            // Force a redraw when the theme toggles so vis-timeline recalculates
+            // any internally-computed layout (e.g. label widths) against the new colours.
+            this.observer = new MutationObserver(() => {
+                this.timeline?.redraw();
+            });
+            this.observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-theme'],
             });
         },
     };

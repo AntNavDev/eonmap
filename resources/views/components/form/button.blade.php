@@ -6,10 +6,10 @@
 
 @php
 $variants = [
-    'primary'   => 'bg-accent text-white hover:bg-accent-hover',
+    'primary'   => 'bg-accent text-on-accent hover:bg-accent-hover',
     'secondary' => 'border border-border bg-surface text-text hover:bg-surface-hover',
-    'danger'    => 'bg-danger text-white hover:bg-danger-hover',
-    'success'   => 'bg-success text-white hover:bg-success-hover',
+    'danger'    => 'bg-danger text-on-accent hover:bg-danger-hover',
+    'success'   => 'bg-success text-on-accent hover:bg-success-hover',
     'ghost'     => 'bg-transparent text-muted hover:text-text hover:bg-surface-hover',
 ];
 

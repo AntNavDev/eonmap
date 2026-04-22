@@ -23,6 +23,7 @@
     --color-accent-subtle:    var(--color-accent-subtle);
     --color-accent-muted:     var(--color-accent-muted);
     --color-secondary:        var(--color-accent-secondary);
+    --color-on-accent:        var(--color-text-on-accent);
     --color-success:          var(--color-success);
     --color-success-hover:    var(--color-success-hover);
     --color-danger:           var(--color-danger);
@@ -222,4 +223,73 @@
 @keyframes skeleton-sweep {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
+}
+
+/* ═══════════════════════════════════════════
+   VIS-TIMELINE THEME OVERRIDES
+   The library's CSS is injected via JS after
+   app.css, so plain class overrides lose on
+   specificity. Scope everything to
+   #taxon-timeline to guarantee a win.
+   ═══════════════════════════════════════════ */
+
+/* Outer border */
+#taxon-timeline .vis-timeline {
+    border-color: var(--color-border);
+    background:   var(--color-surface);
+}
+
+/* All panels — border colour */
+#taxon-timeline .vis-panel.vis-center,
+#taxon-timeline .vis-panel.vis-left,
+#taxon-timeline .vis-panel.vis-right,
+#taxon-timeline .vis-panel.vis-top,
+#taxon-timeline .vis-panel.vis-bottom {
+    border-color: var(--color-border);
+    background:   var(--color-surface);
+}
+
+/* Horizontal background grid lines */
+#taxon-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-minor {
+    border-color: var(--color-border);
+}
+#taxon-timeline .vis-panel.vis-background.vis-horizontal .vis-grid.vis-major {
+    border-color: var(--color-border);
+}
+
+/* Vertical axis tick lines */
+#taxon-timeline .vis-time-axis .vis-grid.vis-minor {
+    border-color: var(--color-border);
+}
+#taxon-timeline .vis-time-axis .vis-grid.vis-major {
+    border-color: var(--color-border);
+}
+
+/* Axis tick labels */
+#taxon-timeline .vis-time-axis .vis-text {
+    color: var(--color-text-muted);
+}
+
+/* Group row separator */
+#taxon-timeline .vis-foreground .vis-group {
+    border-bottom-color: var(--color-border);
+}
+
+/* Group label panel */
+#taxon-timeline .vis-labelset .vis-label {
+    color:              var(--color-text-muted);
+    border-bottom-color: var(--color-border);
+    background:         var(--color-surface);
+}
+
+/* Range items */
+#taxon-timeline .vis-item {
+    background-color: var(--color-accent-subtle);
+    border-color:     var(--color-accent-muted);
+    color:            var(--color-accent);
+}
+#taxon-timeline .vis-item.vis-selected {
+    background-color: var(--color-accent);
+    border-color:     var(--color-accent-hover);
+    color:            var(--color-text-on-accent);
 }
