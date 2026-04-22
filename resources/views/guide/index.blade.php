@@ -104,21 +104,21 @@
             <h3 class="mb-3 text-lg font-semibold text-text">Getting started in 3 steps</h3>
             <ol class="space-y-5">
                 <li class="flex gap-4">
-                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-white text-xs font-bold">1</span>
+                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent text-xs font-bold">1</span>
                     <div>
                         <p class="text-sm font-semibold text-text">Go to the Map page</p>
                         <p class="mt-1 text-sm text-muted">The map starts empty. You will see a message saying "Add a filter to search" — this is normal. The map waits for you to tell it what to look for before fetching any data.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
-                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-white text-xs font-bold">2</span>
+                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent text-xs font-bold">2</span>
                     <div>
                         <p class="text-sm font-semibold text-text">Pick a Quick Start preset or set your own filters</p>
                         <p class="mt-1 text-sm text-muted">The panel on the left has eight preset searches — "Age of Dinosaurs", "T. rex Country", "Trilobite World", and others. Click any preset to instantly populate the filters and run the search. Or choose your own organism, time period, and location.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
-                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-white text-xs font-bold">3</span>
+                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent text-xs font-bold">3</span>
                     <div>
                         <p class="text-sm font-semibold text-text">Press "Apply Filters" and explore</p>
                         <p class="mt-1 text-sm text-muted">The map will populate with markers showing every matching fossil site. Click any marker to see its details. Switch to the Browse page to see the same results in a sortable table, or download the full set as a CSV file.</p>
