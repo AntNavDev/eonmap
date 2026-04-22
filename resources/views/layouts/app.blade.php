@@ -38,6 +38,9 @@
                     <x-nav.nav-link href="{{ route('browse') }}" :active="request()->routeIs('browse')">
                         Browse
                     </x-nav.nav-link>
+                    <x-nav.nav-link href="{{ route('taxa.index') }}" :active="request()->routeIs('taxa.*')">
+                        Taxa
+                    </x-nav.nav-link>
                     <x-nav.nav-link href="{{ route('guide') }}" :active="request()->routeIs('guide')">
                         Guide
                     </x-nav.nav-link>

@@ -153,6 +153,34 @@ For confirm/delete dialogs use `<x-ui.confirm-modal>` — it includes backdrop, 
 
 Available modal sizes: `sm`, `md` (default), `lg`, `xl`.
 
+### Form element rule (REQUIRED)
+
+**Never write raw `<input>`, `<select>`, or `<textarea>` HTML in templates.** Always use the Blade form components so styling and behaviour are controlled from one place:
+
+| Component | Use for |
+|---|---|
+| `<x-form.input>` | Standard single-line text input |
+| `<x-form.search-input>` | Search field with built-in magnifying glass icon. Accepts `$right` slot (spinner, clear button) and `$dropdown` slot (autocomplete list) |
+| `<x-form.select>` | Dropdown select |
+| `<x-form.checkbox>` | Checkbox |
+| `<x-form.label>` | Form label |
+| `<x-form.input-label>` | Input + label pair |
+| `<x-form.input-error>` | Validation error message |
+
+All attributes (`x-model`, `wire:model`, `x-on:*`, `aria-*`, etc.) are passed through via `$attributes->merge()`.
+
+`<x-form.search-input>` slot usage:
+```blade
+<x-form.search-input placeholder="Search…" x-model="query" x-on:input="onInput">
+    <x-slot:right>
+        {{-- Spinner, clear button, or any right-aligned control --}}
+    </x-slot:right>
+    <x-slot:dropdown>
+        {{-- Autocomplete dropdown — rendered inside the component's relative wrapper --}}
+    </x-slot:dropdown>
+</x-form.search-input>
+```
+
 ### iOS zoom prevention
 
 All `<input>`, `<select>`, and `<textarea>` components use `text-base` (1rem = 16px minimum) to prevent iOS zoom on focus. Do not reduce font size below 16px on focusable form elements.
