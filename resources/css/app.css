@@ -178,6 +178,15 @@
         outline-offset: 2px;
     }
     html { scroll-behavior: smooth; }
+    button,
+    a,
+    select,
+    label[for],
+    [role="button"],
+    [role="tab"],
+    [role="option"] {
+        cursor: pointer;
+    }
     body {
         background-color: var(--color-bg);
         color: var(--color-text);
