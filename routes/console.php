@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
@@ -17,5 +18,5 @@ Schedule::command('taxa:seed --fresh')
     ->runInBackground()
     ->withoutOverlapping()
     ->onFailure(function () {
-        \Illuminate\Support\Facades\Log::error('Monthly taxa:seed failed.');
+        Log::error('Monthly taxa:seed failed.');
     });
