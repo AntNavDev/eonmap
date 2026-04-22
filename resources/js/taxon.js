@@ -1,6 +1,6 @@
 import { taxonCharts } from './charts.js';
 import { taxonTimeline } from './timeline.js';
-import { taxonMiniMap } from './map.js';
+import { taxonMiniMap } from './taxon-map.js';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('taxonCharts', taxonCharts);
