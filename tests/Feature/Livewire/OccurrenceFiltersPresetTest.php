@@ -111,6 +111,47 @@ class OccurrenceFiltersPresetTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
+    // Custom interval mode
+    // -------------------------------------------------------------------------
+
+    public function test_enable_custom_interval_sets_flag_and_clears_interval(): void
+    {
+        Livewire::test(OccurrenceFilters::class)
+            ->set('interval', 'Cretaceous')
+            ->call('enableCustomInterval')
+            ->assertSet('customInterval', true)
+            ->assertSet('interval', '');
+    }
+
+    public function test_disable_custom_interval_clears_flag_and_resets_age_range(): void
+    {
+        Livewire::test(OccurrenceFilters::class)
+            ->call('enableCustomInterval')
+            ->set('minMa', 66.0)
+            ->set('maxMa', 145.0)
+            ->call('disableCustomInterval')
+            ->assertSet('customInterval', false)
+            ->assertSet('minMa', 0.0)
+            ->assertSet('maxMa', 540.0);
+    }
+
+    public function test_load_preset_with_age_range_sets_custom_interval_mode(): void
+    {
+        Livewire::test(OccurrenceFilters::class)
+            ->call('loadPreset', 'age-of-dinosaurs')
+            ->assertSet('customInterval', true);
+    }
+
+    public function test_load_preset_with_named_interval_leaves_custom_interval_false(): void
+    {
+        // Start in custom interval mode, then load a named-interval preset
+        Livewire::test(OccurrenceFilters::class)
+            ->call('enableCustomInterval')
+            ->call('loadPreset', 'cambrian-seas')
+            ->assertSet('customInterval', false);
+    }
+
+    // -------------------------------------------------------------------------
     // Reset
     // -------------------------------------------------------------------------
 
@@ -125,7 +166,8 @@ class OccurrenceFiltersPresetTest extends TestCase
             ->assertSet('maxMa', 540.0)
             ->assertSet('envTypes', [])
             ->assertSet('countryCodes', '')
-            ->assertSet('customTaxon', false);
+            ->assertSet('customTaxon', false)
+            ->assertSet('customInterval', false);
     }
 
     // -------------------------------------------------------------------------

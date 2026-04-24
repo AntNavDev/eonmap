@@ -250,7 +250,7 @@ class FossilMapTest extends TestCase
 
         Livewire::test(FossilMap::class)
             ->dispatch('apply-filters', baseName: 'Dinosauria')
-            ->assertSet('loadError', 'PBDB is down');
+            ->assertSet('loadError', 'The search could not be completed. Please try again or adjust your filters.');
     }
 
     public function test_load_error_is_cleared_on_subsequent_successful_call(): void
@@ -265,9 +265,45 @@ class FossilMapTest extends TestCase
 
         Livewire::test(FossilMap::class)
             ->dispatch('apply-filters', baseName: 'Dinosauria')
-            ->assertSet('loadError', 'Temporary failure')
+            ->assertSet('loadError', 'The search could not be completed. Please try again or adjust your filters.')
             ->dispatch('apply-filters', baseName: 'Dinosauria')
             ->assertSet('loadError', null);
+    }
+
+    // ---------------------------------------------------------------------------
+    // filters-reset
+    // ---------------------------------------------------------------------------
+
+    public function test_filters_reset_resets_state_to_initial(): void
+    {
+        $collection = new OccurrenceCollection(
+            items: [$this->makeDto()],
+            total: 12345,
+            offset: 0,
+        );
+
+        $this->mock(FossilOccurrenceServiceInterface::class)
+            ->shouldReceive('getOccurrences')
+            ->once()
+            ->andReturn($collection);
+
+        Livewire::test(FossilMap::class)
+            ->dispatch('apply-filters', baseName: 'Dinosauria')
+            ->assertSet('filtersApplied', true)
+            ->assertSet('resultCount', 1)
+            ->assertSet('resultTotal', 12345)
+            ->dispatch('filters-reset')
+            ->assertSet('filtersApplied', false)
+            ->assertSet('resultCount', 0)
+            ->assertSet('resultTotal', 0)
+            ->assertSet('loadError', null);
+    }
+
+    public function test_filters_reset_dispatches_occurrences_loaded_with_empty_array(): void
+    {
+        Livewire::test(FossilMap::class)
+            ->dispatch('filters-reset')
+            ->assertDispatched('occurrences-loaded', occurrences: []);
     }
 
     // ---------------------------------------------------------------------------

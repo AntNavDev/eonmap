@@ -41,6 +41,14 @@ class OccurrenceFilters extends Component
     public bool $customTaxon = false;
 
     /**
+     * When true, shows min/max Ma inputs instead of the named interval select.
+     */
+    public bool $customInterval = false;
+
+    /** Validation message shown near the Apply button when filters are incomplete. */
+    public ?string $validationError = null;
+
+    /**
      * All PBDB envtype values available for filtering.
      *
      * @return array<string, string>
@@ -152,6 +160,7 @@ class OccurrenceFilters extends Component
      */
     public function updated(string $name): void
     {
+        $this->validationError = null;
         $this->dispatch('filtersChanged');
     }
 
@@ -176,6 +185,7 @@ class OccurrenceFilters extends Component
         $this->envTypes = $preset->envTypes;
         $this->countryCodes = $preset->countryCodes ?? '';
         $this->customTaxon = false;
+        $this->customInterval = $preset->minMa !== null || $preset->maxMa !== null;
 
         $this->applyFilters();
     }
@@ -196,6 +206,25 @@ class OccurrenceFilters extends Component
     {
         $this->customTaxon = false;
         $this->baseName = '';
+    }
+
+    /**
+     * Switch the time period field to custom age range inputs and clear the interval.
+     */
+    public function enableCustomInterval(): void
+    {
+        $this->customInterval = true;
+        $this->interval = '';
+    }
+
+    /**
+     * Switch the time period field back to the named interval select and reset age range.
+     */
+    public function disableCustomInterval(): void
+    {
+        $this->customInterval = false;
+        $this->minMa = 0;
+        $this->maxMa = 540;
     }
 
     /**
@@ -224,6 +253,14 @@ class OccurrenceFilters extends Component
      */
     public function applyFilters(): void
     {
+        if (! $this->hasFilters()) {
+            $this->validationError = 'Please select an organism or time period to search.';
+
+            return;
+        }
+
+        $this->validationError = null;
+
         $this->dispatch(
             'apply-filters',
             baseName: $this->baseName !== '' ? $this->baseName : null,
@@ -257,6 +294,8 @@ class OccurrenceFilters extends Component
         $this->latMin = null;
         $this->latMax = null;
         $this->customTaxon = false;
+        $this->customInterval = false;
+        $this->validationError = null;
         $this->dispatch('filters-reset');
     }
 
@@ -284,21 +323,16 @@ class OccurrenceFilters extends Component
     }
 
     /**
-     * Returns true when at least one filter differs from its default.
+     * Returns true when a primary filter (organism or time period) is set.
+     * Environment, country, and ID quality are refiners and cannot stand alone —
+     * PBDB requires at least one taxon or temporal parameter.
      */
     public function hasFilters(): bool
     {
         return $this->baseName !== ''
             || $this->interval !== ''
             || $this->minMa > 0
-            || $this->maxMa < 540
-            || $this->envTypes !== []
-            || $this->countryCodes !== ''
-            || $this->idQual !== 'any'
-            || $this->lngMin !== null
-            || $this->lngMax !== null
-            || $this->latMin !== null
-            || $this->latMax !== null;
+            || $this->maxMa < 540;
     }
 
     public function render(): View

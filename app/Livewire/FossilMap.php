@@ -95,9 +95,23 @@ class FossilMap extends Component
 
             $this->dispatch('occurrences-loaded', occurrences: $occurrences);
         } catch (ApiException $e) {
-            $this->loadError = $e->getMessage();
-            $this->dispatch('occurrences-error', message: $e->getMessage());
+            $this->loadError = 'The search could not be completed. Please try again or adjust your filters.';
+            $this->dispatch('occurrences-error', message: $this->loadError);
         }
+    }
+
+    /**
+     * Triggered when OccurrenceFilters resets all filter state.
+     * Clears map markers and restores the initial empty-state overlay.
+     */
+    #[On('filters-reset')]
+    public function onFiltersReset(): void
+    {
+        $this->filtersApplied = false;
+        $this->resultCount = 0;
+        $this->resultTotal = 0;
+        $this->loadError = null;
+        $this->dispatch('occurrences-loaded', occurrences: []);
     }
 
     public function render(): View

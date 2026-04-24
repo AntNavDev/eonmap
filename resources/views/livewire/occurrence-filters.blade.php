@@ -13,6 +13,7 @@
             Reset
         </x-form.button>
     </div>
+    <p class="text-xs text-muted -mt-3">Select an organism or time period to search. Use the filters below to refine.</p>
 
     {{-- Quick Start Presets --}}
     <div>
@@ -49,69 +50,70 @@
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
             </x-form.select>
-            <button
-                type="button"
-                wire:click="enableCustomTaxon"
-                class="mt-1 text-xs text-accent hover:underline"
-            >
-                Type a custom name &rarr;
-            </button>
         @else
             <x-form.input
                 id="baseName"
                 wire:model.lazy="baseName"
                 placeholder="e.g. Allosauridae, Pterosauria"
             />
-            <button
-                type="button"
-                wire:click="disableCustomTaxon"
-                class="mt-1 text-xs text-accent hover:underline"
-            >
-                &larr; Back to list
-            </button>
         @endif
+        <x-form.mode-toggle
+            :is-custom="$customTaxon"
+            default-label="Select from list"
+            custom-label="Enter name"
+            on-default="disableCustomTaxon"
+            on-custom="enableCustomTaxon"
+        />
     </div>
 
     {{-- Time Period --}}
     <div>
         <x-form.input-label for="interval" value="Time Period" />
-        <x-form.select id="interval" wire:model="interval">
-            @foreach ($intervalOptions as $value => $label)
-                <option value="{{ $value }}">{{ $label }}</option>
-            @endforeach
-        </x-form.select>
+        @if (! $customInterval)
+            <x-form.select id="interval" wire:model="interval">
+                @foreach ($intervalOptions as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </x-form.select>
+        @else
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <x-form.input-label for="minMa" value="Min (Mya)" :small="true" />
+                    <x-form.input
+                        id="minMa"
+                        type="number"
+                        wire:model.lazy="minMa"
+                        min="0"
+                        max="540"
+                        step="0.1"
+                        class="no-spin"
+                    />
+                </div>
+                <div>
+                    <x-form.input-label for="maxMa" value="Max (Mya)" :small="true" />
+                    <x-form.input
+                        id="maxMa"
+                        type="number"
+                        wire:model.lazy="maxMa"
+                        min="0"
+                        max="540"
+                        step="0.1"
+                        class="no-spin"
+                    />
+                </div>
+            </div>
+        @endif
+        <x-form.mode-toggle
+            :is-custom="$customInterval"
+            default-label="Named period"
+            custom-label="Custom range"
+            on-default="disableCustomInterval"
+            on-custom="enableCustomInterval"
+        />
     </div>
 
-    {{-- Age Range --}}
-    <div>
-        <x-form.label value="Age Range (million years ago)" />
-        <div class="grid grid-cols-2 gap-2">
-            <div>
-                <x-form.input-label for="minMa" value="Min" :small="true" />
-                <x-form.input
-                    id="minMa"
-                    type="number"
-                    wire:model.lazy="minMa"
-                    min="0"
-                    max="540"
-                    step="0.1"
-                    class="no-spin"
-                />
-            </div>
-            <div>
-                <x-form.input-label for="maxMa" value="Max" :small="true" />
-                <x-form.input
-                    id="maxMa"
-                    type="number"
-                    wire:model.lazy="maxMa"
-                    min="0"
-                    max="540"
-                    step="0.1"
-                    class="no-spin"
-                />
-            </div>
-        </div>
-    </div>
+    <div class="border-t border-border"></div>
+    <p class="text-xs font-semibold uppercase tracking-widest text-muted -mt-1">Refine</p>
 
     {{-- Environment --}}
     <div>
@@ -147,28 +149,16 @@
         </x-form.select>
     </div>
 
-    {{-- Bounding Box --}}
-    @if ($lngMin !== null || $lngMax !== null || $latMin !== null || $latMax !== null)
-        <div class="space-y-1 rounded-md border border-accent-muted bg-accent-subtle p-3 text-xs">
-            <div class="flex items-center justify-between">
-                <span class="font-semibold text-accent">Bounding Box</span>
-                <x-form.button variant="ghost" size="sm" wire:click="clearBoundingBox">
-                    &times; Clear
-                </x-form.button>
-            </div>
-            <p>Lng: {{ number_format($lngMin ?? 0, 3) }} &rarr; {{ number_format($lngMax ?? 0, 3) }}</p>
-            <p>Lat: {{ number_format($latMin ?? 0, 3) }} &rarr; {{ number_format($latMax ?? 0, 3) }}</p>
-        </div>
-    @else
-        <p class="text-xs text-muted">
-            Use the rectangle tool on the map to set a bounding box.
-        </p>
-    @endif
 
 </div>
 
     {{-- Sticky Apply footer --}}
     <div class="shrink-0 border-t border-border p-4">
+        @if ($validationError)
+            <p class="mb-3 rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-xs text-danger">
+                {{ $validationError }}
+            </p>
+        @endif
         <x-form.button
             variant="primary"
             class="w-full"
