@@ -101,18 +101,18 @@ class OccurrenceFilters extends Component
     {
         return [
             '' => 'All time',
-            'Quaternary' => 'Quaternary (2.6 Ma – present)',
-            'Neogene' => 'Neogene (23–2.6 Ma)',
-            'Paleogene' => 'Paleogene (66–23 Ma)',
-            'Cretaceous' => 'Cretaceous (145–66 Ma)',
-            'Jurassic' => 'Jurassic (201–145 Ma)',
-            'Triassic' => 'Triassic (252–201 Ma)',
-            'Permian' => 'Permian (299–252 Ma)',
-            'Carboniferous' => 'Carboniferous (359–299 Ma)',
-            'Devonian' => 'Devonian (419–359 Ma)',
-            'Silurian' => 'Silurian (444–419 Ma)',
-            'Ordovician' => 'Ordovician (485–444 Ma)',
-            'Cambrian' => 'Cambrian (541–485 Ma)',
+            'Quaternary' => 'Quaternary (2.6 Mya – present)',
+            'Neogene' => 'Neogene (23–2.6 Mya)',
+            'Paleogene' => 'Paleogene (66–23 Mya)',
+            'Cretaceous' => 'Cretaceous (145–66 Mya)',
+            'Jurassic' => 'Jurassic (201–145 Mya)',
+            'Triassic' => 'Triassic (252–201 Mya)',
+            'Permian' => 'Permian (299–252 Mya)',
+            'Carboniferous' => 'Carboniferous (359–299 Mya)',
+            'Devonian' => 'Devonian (419–359 Mya)',
+            'Silurian' => 'Silurian (444–419 Mya)',
+            'Ordovician' => 'Ordovician (485–444 Mya)',
+            'Cambrian' => 'Cambrian (541–485 Mya)',
         ];
     }
 

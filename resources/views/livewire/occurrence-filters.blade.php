@@ -1,4 +1,5 @@
-<div class="p-4 space-y-5" x-data="{ activePreset: null }">
+<div class="flex flex-col flex-1 min-h-0" x-data="{ activePreset: null }">
+<div class="flex-1 overflow-y-auto p-4 space-y-5">
 
     {{-- Header --}}
     <div class="flex items-center justify-between">
@@ -83,7 +84,7 @@
 
     {{-- Age Range --}}
     <div>
-        <x-form.label value="Age Range (Ma)" />
+        <x-form.label value="Age Range (million years ago)" />
         <div class="grid grid-cols-2 gap-2">
             <div>
                 <x-form.input-label for="minMa" value="Min" :small="true" />
@@ -164,22 +165,26 @@
         </p>
     @endif
 
-    {{-- Apply --}}
-    <x-form.button
-        variant="primary"
-        class="w-full"
-        wire:click="applyFilters"
-        wire:loading.attr="disabled"
-        wire:target="applyFilters"
-    >
-        <span wire:loading.remove wire:target="applyFilters">Apply Filters</span>
-        <span wire:loading wire:target="applyFilters" class="flex items-center justify-center gap-2">
-            <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-            </svg>
-            Loading&hellip;
-        </span>
-    </x-form.button>
+</div>
+
+    {{-- Sticky Apply footer --}}
+    <div class="shrink-0 border-t border-border p-4">
+        <x-form.button
+            variant="primary"
+            class="w-full"
+            wire:click="applyFilters"
+            wire:loading.attr="disabled"
+            wire:target="applyFilters"
+        >
+            <span wire:loading.remove wire:target="applyFilters">Apply Filters</span>
+            <span wire:loading wire:target="applyFilters" class="flex items-center justify-center gap-2">
+                <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                Loading&hellip;
+            </span>
+        </x-form.button>
+    </div>
 
 </div>

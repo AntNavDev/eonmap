@@ -104,7 +104,7 @@
 
                 @if ($occurrence->maxMa !== null && $occurrence->minMa !== null)
                     <p class="text-sm text-muted mb-3">
-                        {{ number_format($occurrence->maxMa, 1) }} &ndash; {{ number_format($occurrence->minMa, 1) }} Ma
+                        {{ number_format($occurrence->maxMa, 1) }} &ndash; {{ number_format($occurrence->minMa, 1) }} million years ago
                     </p>
 
                     {{-- Position bar on 0–540 Ma scale --}}
@@ -120,8 +120,8 @@
                         ></div>
                     </div>
                     <div class="flex justify-between text-xs text-muted mt-1">
-                        <span>540 Ma</span>
-                        <span>0 Ma</span>
+                        <span>540 Mya</span>
+                        <span>Present</span>
                     </div>
                 @endif
             </div>
@@ -132,15 +132,7 @@
 
                 <p class="text-sm">
                     Collection
-                    <a
-                        href="https://paleobiodb.org/classic/displayCollResults?collection_no={{ $occurrence->collectionNo }}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="font-mono text-accent hover:underline"
-                    >
-                        #{{ $occurrence->collectionNo }}
-                    </a>
-                    <span class="text-muted text-xs ml-1">(opens PBDB)</span>
+                    <span class="font-mono font-medium">#{{ $occurrence->collectionNo }}</span>
                 </p>
 
                 <p class="text-xs text-muted mt-2">

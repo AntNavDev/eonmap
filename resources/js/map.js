@@ -6,9 +6,6 @@ import 'leaflet.markercluster';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
 import 'leaflet.heat';
-import TomSelect from 'tom-select';
-import 'tom-select/dist/css/tom-select.css';
-
 // Vite bundles assets differently to webpack — provide explicit URLs for
 // Leaflet's default marker icons so they resolve correctly at runtime.
 import markerIconUrl from 'leaflet/dist/images/marker-icon.png';
@@ -57,13 +54,13 @@ function fossilMap() {
         tileLayers: {},
         currentOccurrences: [],
         heatmapMode: false,
-        paleoMode: false,
         basemapKey: 'osm',
 
         init() {
             this.map = L.map('eonmap-map', {
                 center: [20, 0],
                 zoom: 2,
+                minZoom: 2,
             });
 
             // Build all tile layers but only add the default one
@@ -110,14 +107,6 @@ function fossilMap() {
                 });
             });
 
-            // Initialise Tom Select on the taxon input
-            const basenameEl = document.getElementById('baseName');
-            if (basenameEl) {
-                new TomSelect('#baseName', {
-                    create: false,
-                    maxItems: 1,
-                });
-            }
         },
 
         /**
@@ -138,13 +127,12 @@ function fossilMap() {
             const heatPoints = [];
 
             occurrences.forEach((occ) => {
-                const lat = this.paleoMode ? occ.paleolat : occ.lat;
-                const lng = this.paleoMode ? occ.paleolng : occ.lng;
+                const { lat, lng } = occ;
 
                 if (lat == null || lng == null) return;
 
                 const ageRange = occ.maxMa != null
-                    ? ` (${occ.maxMa}&ndash;${occ.minMa} Ma)`
+                    ? ` (${occ.maxMa}&ndash;${occ.minMa} million years ago)`
                     : '';
 
                 const popup = `
@@ -184,10 +172,7 @@ function fossilMap() {
 
             if (this.heatmapMode) {
                 const points = this.currentOccurrences
-                    .map((occ) => [
-                        this.paleoMode ? occ.paleolat : occ.lat,
-                        this.paleoMode ? occ.paleolng : occ.lng,
-                    ])
+                    .map((occ) => [occ.lat, occ.lng])
                     .filter(([lat, lng]) => lat != null && lng != null);
 
                 if (points.length > 0) {
@@ -198,15 +183,6 @@ function fossilMap() {
                 this.map.removeLayer(this.heatLayer);
                 this.heatLayer = null;
             }
-        },
-
-        /**
-         * Toggle between modern and reconstructed paleocoordinates, then
-         * re-render markers using the alternate coordinate set.
-         */
-        togglePaleoMode() {
-            this.paleoMode = !this.paleoMode;
-            this.updateMarkers(this.currentOccurrences);
         },
 
         /**

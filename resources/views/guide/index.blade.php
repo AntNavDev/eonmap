@@ -187,12 +187,12 @@
 
                 <div>
                     <p class="font-semibold text-text">Time Period</p>
-                    <p class="mt-1 text-muted">Filters to occurrences whose geological age overlaps with the selected interval. The dropdown covers all twelve major Phanerozoic periods from the Cambrian (541–485 Ma) through the Quaternary (2.6 Ma – present). This maps to PBDB's <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">interval</code> parameter.</p>
+                    <p class="mt-1 text-muted">Filters to occurrences whose geological age overlaps with the selected interval. The dropdown covers all twelve major Phanerozoic periods from the Cambrian (541–485 Mya) through the Quaternary (2.6 Mya – present). This maps to PBDB's <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">interval</code> parameter.</p>
                 </div>
 
                 <div>
-                    <p class="font-semibold text-text">Age Range (Ma)</p>
-                    <p class="mt-1 text-muted">A numeric alternative to Time Period. Enter minimum and maximum ages in Ma (millions of years ago). The range 0–540 covers the entire Phanerozoic eon — the period of complex animal life. You can use this alongside the Time Period filter or instead of it. Maps to PBDB's <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">min_ma</code> and <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">max_ma</code> parameters.</p>
+                    <p class="font-semibold text-text">Age Range (million years ago)</p>
+                    <p class="mt-1 text-muted">A numeric alternative to Time Period. Enter minimum and maximum ages in millions of years ago. The range 0–540 covers the entire Phanerozoic eon — the period of complex animal life. You can use this alongside the Time Period filter or instead of it. Maps to PBDB's <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">min_ma</code> and <code class="font-mono text-xs bg-surface-raised px-1 py-0.5 rounded">max_ma</code> parameters.</p>
                 </div>
 
                 <div>
@@ -233,14 +233,14 @@
             <p class="mb-4 text-sm text-muted">The filter panel includes eight curated preset searches designed to highlight different eras and groups. Each preset pre-fills all relevant filters and applies the search immediately.</p>
             <div class="grid gap-3 sm:grid-cols-2">
                 @foreach ([
-                    ['🦕', 'Age of Dinosaurs',  'Non-avian dinosaurs from the Triassic through the end-Cretaceous extinction (252–66 Ma).'],
+                    ['🦕', 'Age of Dinosaurs',  'Non-avian dinosaurs from the Triassic through the end-Cretaceous extinction (252–66 million years ago).'],
                     ['🦖', 'T. rex Country',     'Tyrannosaurid fossils from North America during the Cretaceous period, filtered to the United States.'],
-                    ['🧊', 'Ice Age Giants',     'Pleistocene megafauna — mammals from 0–2.6 Ma, covering woolly mammoths and their contemporaries.'],
-                    ['🦣', 'Rise of Mammals',    'Mammal fossils from the Paleogene (23–66 Ma), the era that followed the non-avian dinosaur extinction.'],
+                    ['🧊', 'Ice Age Giants',     'Pleistocene megafauna — mammals from 0–2.6 million years ago, covering woolly mammoths and their contemporaries.'],
+                    ['🦣', 'Rise of Mammals',    'Mammal fossils from the Paleogene (23–66 million years ago), the era that followed the non-avian dinosaur extinction.'],
                     ['🪲', 'Trilobite World',    'Trilobites across all time periods and locations.'],
                     ['🐚', 'Ammonites',          'Ammonoid cephalopods across all time.'],
                     ['🌊', 'Cambrian Seas',       'Marine life from the Cambrian period — the dawn of complex animal life.'],
-                    ['💀', 'The Great Dying',     'Fossils from around the Permian–Triassic boundary (245–260 Ma), the largest mass extinction in Earth\'s history.'],
+                    ['💀', 'The Great Dying',     'Fossils from around the Permian–Triassic boundary (245–260 million years ago), the largest mass extinction in Earth\'s history.'],
                 ] as [$emoji, $name, $desc])
                     <div class="flex gap-3 rounded-lg border border-border p-3 text-sm">
                         <span class="text-xl leading-none mt-0.5">{{ $emoji }}</span>
@@ -302,8 +302,8 @@
                                 ['Rank',            'The taxonomic rank of the accepted name (genus, species, family, etc.).'],
                                 ['Early Interval',  'The name of the earliest possible geological interval for this occurrence.'],
                                 ['Late Interval',   'The name of the latest possible geological interval (may be the same as Early).'],
-                                ['Max Age (Ma)',     'The oldest possible age of the occurrence in millions of years.'],
-                                ['Min Age (Ma)',     'The youngest possible age of the occurrence in millions of years.'],
+                                ['Max Age (Mya)',    'The oldest possible age of the occurrence in millions of years ago.'],
+                                ['Min Age (Mya)',    'The youngest possible age of the occurrence in millions of years ago.'],
                                 ['Country',         'Country where the fossil was collected.'],
                                 ['State',           'State or province where the fossil was collected.'],
                                 ['Formation',       'The geological formation the fossil was found in.'],
@@ -370,7 +370,7 @@
                 </div>
                 <div>
                     <p class="font-semibold text-text">Age card</p>
-                    <p class="mt-1 text-muted">The geological interval name(s) and the age range in Ma. A visual bar shows where this occurrence sits on a 0–540 Ma timeline, giving immediate context for how old the fossil is relative to the entire Phanerozoic.</p>
+                    <p class="mt-1 text-muted">The geological interval name(s) and the age range in millions of years ago. A visual bar shows where this occurrence sits on a 0–540 million year timeline, giving immediate context for how old the fossil is relative to the entire Phanerozoic.</p>
                 </div>
                 <div>
                     <p class="font-semibold text-text">Collection card</p>
