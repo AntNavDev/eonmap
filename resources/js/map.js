@@ -3,8 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
-import 'leaflet-draw/dist/leaflet.draw.css';
-import 'leaflet-draw';
 import 'leaflet.heat';
 // Vite bundles assets differently to webpack — provide explicit URLs for
 // Leaflet's default marker icons so they resolve correctly at runtime.
@@ -50,7 +48,6 @@ function fossilMap() {
         map: null,
         markerClusterGroup: null,
         heatLayer: null,
-        drawControl: null,
         tileLayers: {},
         currentOccurrences: [],
         heatmapMode: false,
@@ -72,41 +69,6 @@ function fossilMap() {
             // Marker cluster group
             this.markerClusterGroup = L.markerClusterGroup();
             this.map.addLayer(this.markerClusterGroup);
-
-            // Feature group to hold drawn shapes
-            const drawnItems = new L.FeatureGroup();
-            this.map.addLayer(drawnItems);
-
-            // Draw control — rectangle only
-            this.drawControl = new L.Control.Draw({
-                draw: {
-                    rectangle: true,
-                    polyline: false,
-                    polygon: false,
-                    circle: false,
-                    marker: false,
-                    circlemarker: false,
-                },
-                edit: { featureGroup: drawnItems },
-            });
-            this.map.addControl(this.drawControl);
-
-            // Push drawn rectangle bounds into the OccurrenceFilters Livewire
-            // component via a global Livewire event — OccurrenceFilters listens
-            // for 'bbox-set' with #[On('bbox-set')].
-            this.map.on(L.Draw.Event.CREATED, (event) => {
-                drawnItems.clearLayers();
-                drawnItems.addLayer(event.layer);
-
-                const bounds = event.layer.getBounds();
-                window.Livewire.dispatch('bbox-set', {
-                    lngMin: bounds.getWest(),
-                    lngMax: bounds.getEast(),
-                    latMin: bounds.getSouth(),
-                    latMax: bounds.getNorth(),
-                });
-            });
-
         },
 
         /**

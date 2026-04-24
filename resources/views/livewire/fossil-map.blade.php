@@ -1,7 +1,7 @@
 <div class="grid grid-cols-[18rem_1fr] h-[calc(100vh-4rem)]">
 
     {{-- ─── Filter Panel ──────────────────────────────────────────────── --}}
-    <aside class="flex flex-col bg-surface border-r border-border overflow-hidden" aria-label="Filters">
+    <aside class="relative flex flex-col bg-surface border-r border-border overflow-hidden" aria-label="Filters">
         <livewire:occurrence-filters />
 
         {{-- Error state (set by FossilMap when the API call fails) --}}
@@ -10,6 +10,20 @@
                 {{ $loadError }}
             </div>
         @endif
+
+        {{-- Loading overlay — covers the filter panel while the API call is in flight --}}
+        <div
+            wire:loading
+            class="absolute inset-0 z-10 bg-surface/80 backdrop-blur-sm"
+        >
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
+                <svg class="h-7 w-7 animate-spin text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <p class="text-sm font-medium text-muted">Searching&hellip;</p>
+            </div>
+        </div>
     </aside>
 
     {{-- ─── Map Container ─────────────────────────────────────────────── --}}
@@ -41,6 +55,17 @@
             </div>
         </div>
 
+        {{-- Zero results overlay — shown when a search completes with no matches --}}
+        <div
+            x-show="$wire.filtersApplied && $wire.resultCount === 0 && !$wire.loadError"
+            class="absolute inset-0 flex items-center justify-center pointer-events-none z-[500]"
+        >
+            <div class="bg-surface/90 backdrop-blur-sm rounded-xl border border-border px-8 py-6 text-center shadow-lg">
+                <p class="text-lg font-semibold text-text">No occurrences found</p>
+                <p class="mt-1 text-sm text-muted">Try a different organism, time period, or remove some filters.</p>
+            </div>
+        </div>
+
         {{-- Result count indicator — shown after filters are applied --}}
         <div
             x-show="$wire.filtersApplied && $wire.resultCount > 0"
@@ -52,6 +77,10 @@
                         ? 'Showing ' + $wire.resultCount.toLocaleString() + ' of ' + $wire.resultTotal.toLocaleString() + ' occurrences'
                         : $wire.resultCount.toLocaleString() + ' ' + ($wire.resultCount === 1 ? 'occurrence' : 'occurrences')
                 "></span>
+                <p
+                    x-show="$wire.resultCount >= 500"
+                    class="mt-0.5 text-muted/70"
+                >This application limits results to 500 occurrences at a time.</p>
             </div>
         </div>
 
