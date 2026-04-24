@@ -37,7 +37,7 @@ function occurrenceBrowser() {
                         field: 'early_interval',
                     },
                     {
-                        title: 'Max Ma',
+                        title: 'Max Age (Mya)',
                         field: 'max_ma',
                         sorter: 'number',
                         headerClick: (e, col) => {
@@ -45,7 +45,7 @@ function occurrenceBrowser() {
                         },
                     },
                     {
-                        title: 'Min Ma',
+                        title: 'Min Age (Mya)',
                         field: 'min_ma',
                         sorter: 'number',
                         headerClick: (e, col) => {

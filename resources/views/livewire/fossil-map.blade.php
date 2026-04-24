@@ -1,7 +1,7 @@
 <div class="grid grid-cols-[18rem_1fr] h-[calc(100vh-4rem)]">
 
     {{-- ─── Filter Panel ──────────────────────────────────────────────── --}}
-    <aside class="flex flex-col bg-surface border-r border-border overflow-y-auto" aria-label="Filters">
+    <aside class="flex flex-col bg-surface border-r border-border overflow-hidden" aria-label="Filters">
         <livewire:occurrence-filters />
 
         {{-- Error state (set by FossilMap when the API call fails) --}}
@@ -67,17 +67,6 @@
                 aria-label="Toggle heatmap"
             >
                 Heatmap
-            </button>
-
-            {{-- Paleocoordinate toggle --}}
-            <button
-                x-on:click="togglePaleoMode()"
-                x-bind:class="paleoMode ? 'bg-accent text-on-accent' : 'bg-surface text-text'"
-                x-bind:aria-pressed="paleoMode"
-                class="rounded-md border border-border px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-surface-hover transition-colors"
-                aria-label="Toggle paleocoordinates"
-            >
-                Paleo
             </button>
 
             {{-- Basemap switcher --}}
