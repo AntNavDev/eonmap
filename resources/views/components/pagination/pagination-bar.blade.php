@@ -9,6 +9,7 @@
     'perPage'        => 25,
     'perPageOptions' => [25, 50, 100],
     'perPageModel'   => 'perPage',   // Livewire property name to wire:model.live
+    'showTotal'      => true,
 ])
 
 <div class="flex items-center gap-4">
@@ -20,6 +21,7 @@
         :can-next="$canNext"
         :prev-action="$prevAction"
         :next-action="$nextAction"
+        :show-total="$showTotal"
     />
 
     <x-pagination.per-page-selector

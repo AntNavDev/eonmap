@@ -6,6 +6,7 @@
     'canNext'    => false,
     'prevAction' => 'prevPage',   // Livewire method name
     'nextAction' => 'nextPage',   // Livewire method name
+    'showTotal'  => true,         // false when the API cannot provide a grand total
 ])
 
 {{--
@@ -23,8 +24,12 @@
     </button>
 
     <span class="text-xs text-muted">
-        @if ($total > 0)
-            Showing {{ number_format($from) }}&ndash;{{ number_format($to) }} of {{ number_format($total) }}
+        @if ($from > 0)
+            @if ($showTotal && $total > 0)
+                Showing {{ number_format($from) }}&ndash;{{ number_format($to) }} of {{ number_format($total) }}
+            @else
+                Showing {{ number_format($from) }}&ndash;{{ number_format($to) }}
+            @endif
         @else
             No results
         @endif
