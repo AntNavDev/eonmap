@@ -86,14 +86,61 @@ class OccurrenceBrowserTest extends TestCase
             ->assertDispatched('browser-data-loaded');
     }
 
-    public function test_total_is_set_from_collection_after_load(): void
+    public function test_total_reflects_count_of_returned_items_not_pbdb_records_found(): void
     {
-        $this->mockService(new OccurrenceCollection(items: [], total: 9876, offset: 0));
+        $dto = $this->makeDto();
+        // Even if OccurrenceCollection carries a large total from records_found,
+        // $this->total is set to count($collection->items) because PBDB does not
+        // actually return records_found in its API responses.
+        $this->mockService(new OccurrenceCollection(items: [$dto], total: 9876, offset: 0));
 
         Livewire::test(OccurrenceBrowser::class)
             ->set('filterBaseName', 'Dinosauria')
             ->call('loadOccurrences')
-            ->assertSet('total', 9876);
+            ->assertSet('total', 1);
+    }
+
+    public function test_has_more_is_true_when_page_is_full(): void
+    {
+        // Build exactly perPage (25) DTOs so the page is considered full.
+        $items = array_fill(0, 25, $this->makeDto());
+        $this->mockService(new OccurrenceCollection(items: $items, total: 25, offset: 0));
+
+        Livewire::test(OccurrenceBrowser::class)
+            ->set('filterBaseName', 'Dinosauria')
+            ->call('loadOccurrences')
+            ->assertSet('hasMore', true);
+    }
+
+    public function test_has_more_is_false_when_page_is_partial(): void
+    {
+        // Fewer than perPage (25) items — we are on the last page.
+        $items = array_fill(0, 10, $this->makeDto());
+        $this->mockService(new OccurrenceCollection(items: $items, total: 10, offset: 0));
+
+        Livewire::test(OccurrenceBrowser::class)
+            ->set('filterBaseName', 'Dinosauria')
+            ->call('loadOccurrences')
+            ->assertSet('hasMore', false);
+    }
+
+    public function test_has_more_is_false_when_no_filter_applied(): void
+    {
+        Livewire::test(OccurrenceBrowser::class)
+            ->call('loadOccurrences')
+            ->assertSet('hasMore', false);
+    }
+
+    public function test_has_more_is_false_after_api_exception(): void
+    {
+        $this->mock(FossilOccurrenceServiceInterface::class)
+            ->shouldReceive('getOccurrences')
+            ->andThrow(new ApiException('Failure'));
+
+        Livewire::test(OccurrenceBrowser::class)
+            ->set('filterBaseName', 'Dinosauria')
+            ->call('loadOccurrences')
+            ->assertSet('hasMore', false);
     }
 
     /**

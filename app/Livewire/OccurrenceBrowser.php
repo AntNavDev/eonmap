@@ -23,6 +23,9 @@ class OccurrenceBrowser extends Component
 
     public int $total = 0;
 
+    /** True when the last page returned a full perPage set, indicating more records likely exist. */
+    public bool $hasMore = false;
+
     public ?string $loadError = null;
 
     // Filter values stored after the last apply-filters event
@@ -102,6 +105,7 @@ class OccurrenceBrowser extends Component
             || $this->filterLatMax !== null;
 
         if (! $hasFilter) {
+            $this->hasMore = false;
             $this->dispatch('browser-data-loaded', occurrences: []);
 
             return;
@@ -128,7 +132,10 @@ class OccurrenceBrowser extends Component
             );
 
             $collection = $service->getOccurrences($query);
-            $this->total = $collection->total;
+            $this->total = count($collection->items);
+            // PBDB does not return a total count, so we infer whether more records
+            // exist by checking if the page was full.
+            $this->hasMore = count($collection->items) >= $this->perPage;
 
             // Transform to snake_case arrays for Tabulator
             $rows = array_map(static fn ($dto) => [
@@ -147,6 +154,7 @@ class OccurrenceBrowser extends Component
 
             $this->dispatch('browser-data-loaded', occurrences: $rows);
         } catch (ApiException $e) {
+            $this->hasMore = false;
             $this->loadError = $e->getMessage();
         }
     }
@@ -223,7 +231,7 @@ class OccurrenceBrowser extends Component
     {
         return view('livewire.occurrence-browser', [
             'from' => $this->total > 0 ? $this->offset + 1 : 0,
-            'to' => min($this->offset + $this->perPage, $this->total),
+            'to' => $this->offset + $this->total,
             'perPage' => $this->perPage,
             'exportUrl' => $this->exportUrl(),
         ]);
