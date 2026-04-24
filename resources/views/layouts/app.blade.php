@@ -26,27 +26,25 @@
 </head>
 <body class="bg-bg text-text antialiased">
     <nav class="border-b border-border bg-surface" aria-label="Main navigation">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <a href="/" class="text-lg font-semibold tracking-tight text-text">
-                    Eonmap
-                </a>
-                <div class="flex items-center gap-6">
-                    <x-nav.nav-link href="{{ route('map') }}" :active="request()->routeIs('map')">
-                        Map
-                    </x-nav.nav-link>
-                    <x-nav.nav-link href="{{ route('browse') }}" :active="request()->routeIs('browse')">
-                        Browse
-                    </x-nav.nav-link>
-                    <x-nav.nav-link href="{{ route('taxa.index') }}" :active="request()->routeIs('taxa.*')">
-                        Taxa
-                    </x-nav.nav-link>
-                    <x-nav.nav-link href="{{ route('guide') }}" :active="request()->routeIs('guide')">
-                        Guide
-                    </x-nav.nav-link>
-                    <livewire:recently-viewed />
-                    <x-theme-toggle />
-                </div>
+        <div class="flex h-16 items-center justify-between px-4 sm:px-6">
+            <a href="/" class="text-lg font-semibold tracking-tight text-text">
+                Eonmap
+            </a>
+            <div class="flex items-center gap-6">
+                <x-nav.nav-link href="{{ route('map') }}" :active="request()->routeIs('map')">
+                    Map
+                </x-nav.nav-link>
+                <x-nav.nav-link href="{{ route('browse') }}" :active="request()->routeIs('browse')">
+                    Browse
+                </x-nav.nav-link>
+                <x-nav.nav-link href="{{ route('taxa.index') }}" :active="request()->routeIs('taxa.*')">
+                    Taxa
+                </x-nav.nav-link>
+                <x-nav.nav-link href="{{ route('guide') }}" :active="request()->routeIs('guide')">
+                    Guide
+                </x-nav.nav-link>
+                <livewire:recently-viewed />
+                <x-theme-toggle />
             </div>
         </div>
     </nav>
