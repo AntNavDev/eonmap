@@ -212,6 +212,26 @@ class OccurrenceDTOTest extends TestCase
         $this->assertSame('clade', $dto->acceptedRank);
     }
 
+    public function test_from_array_sets_null_rank_when_rnk_key_absent(): void
+    {
+        $record = $this->fullRecord;
+        unset($record['rnk']);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertNull($dto->acceptedRank);
+    }
+
+    public function test_from_array_sets_null_accepted_name_when_tna_key_absent(): void
+    {
+        $record = $this->fullRecord;
+        unset($record['tna']);
+
+        $dto = OccurrenceDTO::fromArray($record);
+
+        $this->assertNull($dto->acceptedName);
+    }
+
     public function test_from_array_maps_paleolat_and_paleolng(): void
     {
         $record = array_merge($this->fullRecord, [

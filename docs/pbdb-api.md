@@ -236,7 +236,7 @@ The concrete implementation of `FossilOccurrenceServiceInterface`. Injected with
 
 A **readonly value object** representing a single fossil occurrence record. Created by `OccurrenceDTO::fromArray()` which maps PBDB's terse field codes (e.g. `oid`, `tna`, `phl`) to readable property names.
 
-All fields except `occurrenceNo`, `acceptedName`, `acceptedRank`, and `collectionNo` are nullable — PBDB does not guarantee every field is present in every record.
+All fields except `occurrenceNo` and `collectionNo` are nullable — PBDB does not guarantee every field is present in every record. `acceptedName` and `acceptedRank` are both nullable; when a taxon has not been entered into PBDB taxonomy (`tdf: 'taxon not entered'`), both `tna` and `rnk` are omitted. This is common in deep-time queries (e.g. Cambrian Seas and Great Dying presets).
 
 The `paleolat` / `paleolng` properties are only populated when `paleoloc` is in the `show` parameter.
 

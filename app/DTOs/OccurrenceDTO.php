@@ -8,8 +8,8 @@ class OccurrenceDTO
 {
     /**
      * @param  int  $occurrenceNo  oid — PBDB occurrence number
-     * @param  string  $acceptedName  tna — accepted taxon name
-     * @param  string  $acceptedRank  rnk — accepted taxonomic rank
+     * @param  string|null  $acceptedName  tna — accepted taxon name (absent for some PBDB records)
+     * @param  string|null  $acceptedRank  rnk — accepted taxonomic rank (absent for some PBDB records)
      * @param  string|null  $phylum  phl — phylum
      * @param  string|null  $class  cll — class
      * @param  string|null  $order  odl — order
@@ -31,8 +31,8 @@ class OccurrenceDTO
      */
     public function __construct(
         public readonly int $occurrenceNo,
-        public readonly string $acceptedName,
-        public readonly string $acceptedRank,
+        public readonly ?string $acceptedName,
+        public readonly ?string $acceptedRank,
         public readonly ?string $phylum,
         public readonly ?string $class,
         public readonly ?string $order,
@@ -104,14 +104,16 @@ class OccurrenceDTO
      */
     public static function fromArray(array $data): static
     {
-        $rawRank = $data['rnk'];
-        $acceptedRank = is_int($rawRank)
-            ? (self::RANK_LABELS[$rawRank] ?? (string) $rawRank)
-            : (string) $rawRank;
+        $rawRank = $data['rnk'] ?? null;
+        $acceptedRank = match (true) {
+            $rawRank === null => null,
+            is_int($rawRank) => self::RANK_LABELS[$rawRank] ?? (string) $rawRank,
+            default => (string) $rawRank,
+        };
 
         return new static(
             occurrenceNo: self::parseId($data['oid']),
-            acceptedName: $data['tna'],
+            acceptedName: $data['tna'] ?? null,
             acceptedRank: $acceptedRank,
             phylum: $data['phl'] ?? null,
             class: $data['cll'] ?? null,
