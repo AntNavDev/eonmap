@@ -7,10 +7,9 @@ function occurrenceBrowser() {
 
         init() {
             this.table = new Tabulator('#eonmap-browser-table', {
-                layout: 'fitColumns',
+                layout: 'fitDataFill',
                 data: [],
                 movableColumns: true,
-                responsiveLayout: 'hide',
                 columns: [
                     {
                         title: 'Taxon',

@@ -1,7 +1,7 @@
-<div class="grid grid-cols-[18rem_1fr] h-[calc(100vh-4rem)]">
+<div class="flex flex-col lg:grid lg:grid-cols-[18rem_1fr] h-[calc(100vh-4rem)]">
 
     {{-- ─── Filter Panel ──────────────────────────────────────────────── --}}
-    <aside class="relative flex flex-col bg-surface border-r border-border overflow-hidden" aria-label="Filters">
+    <aside class="max-h-[45vh] lg:max-h-none relative flex flex-col bg-surface border-b lg:border-b-0 lg:border-r border-border overflow-hidden" aria-label="Filters">
         <livewire:occurrence-filters />
 
         {{-- Error state (set by FossilMap when the API call fails) --}}
@@ -39,7 +39,7 @@
         x-data="fossilMap"
         x-on:occurrences-loaded.window="updateMarkers($event.detail.occurrences)"
         wire:ignore
-        class="relative bg-surface-sunken"
+        class="relative bg-surface-sunken flex-1 lg:flex-none min-h-0"
     >
         {{-- Leaflet map --}}
         <div id="eonmap-map" class="w-full h-full" role="application" aria-label="Fossil occurrence map"></div>
@@ -51,7 +51,7 @@
         >
             <div class="bg-surface/90 backdrop-blur-sm rounded-xl border border-border px-8 py-6 text-center shadow-lg">
                 <p class="text-lg font-semibold text-text">Add a filter to search</p>
-                <p class="mt-1 text-sm text-muted">Use the panel on the left to filter fossil occurrences.</p>
+                <p class="mt-1 text-sm text-muted">Use the filters above to search for fossil occurrences.</p>
             </div>
         </div>
 

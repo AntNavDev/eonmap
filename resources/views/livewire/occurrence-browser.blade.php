@@ -6,7 +6,8 @@
 
     {{-- ─── Table + Toolbar ───────────────────────────────────────────────── --}}
     {{-- order-first puts this above the filter panel on mobile               --}}
-    <div class="order-first lg:order-last flex flex-col lg:min-h-0">
+    {{-- min-w-0 prevents the grid item from expanding beyond its track       --}}
+    <div class="order-first lg:order-last flex flex-col lg:min-h-0 min-w-0">
 
         {{-- Toolbar --}}
         <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-border bg-surface-raised shrink-0">
@@ -27,7 +28,7 @@
 
             <a
                 href="{{ $exportUrl }}"
-                class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-surface-hover transition-colors shrink-0"
+                class="hidden sm:inline-flex rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-surface-hover transition-colors shrink-0"
                 aria-label="Export current results as CSV"
             >
                 Export CSV
@@ -41,10 +42,10 @@
             </div>
         @endif
 
-        {{-- Tabulator table — flex-1 fills remaining column height on desktop --}}
+        {{-- Tabulator table — scrolls horizontally on mobile, fills column height on desktop --}}
         <div
             id="eonmap-browser-table"
-            class="w-full lg:flex-1 lg:overflow-auto"
+            class="w-full overflow-x-auto lg:flex-1 lg:overflow-auto"
             wire:ignore
         ></div>
 
@@ -54,7 +55,7 @@
     {{-- order-last puts this below the table on mobile, left column on desktop --}}
     <aside
         x-data="{ filtersOpen: true }"
-        class="order-last lg:order-first border-t lg:border-t-0 lg:border-r border-border bg-surface flex flex-col lg:overflow-hidden"
+        class="order-last lg:order-first border-t lg:border-t-0 lg:border-r border-border bg-surface flex flex-col overflow-hidden lg:overflow-hidden min-w-0"
         aria-label="Filters"
     >
         {{-- Panel header --}}
