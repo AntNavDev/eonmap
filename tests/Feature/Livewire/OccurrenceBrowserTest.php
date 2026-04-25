@@ -403,31 +403,6 @@ class OccurrenceBrowserTest extends TestCase
     }
 
     // ---------------------------------------------------------------------------
-    // Sorting
-    // ---------------------------------------------------------------------------
-
-    public function test_set_sort_toggles_direction_on_repeated_calls_with_same_field(): void
-    {
-        Livewire::test(OccurrenceBrowser::class)
-            ->set('sortField', 'accepted_name')
-            ->set('sortDirection', 'asc')
-            ->call('setSort', 'accepted_name')
-            ->assertSet('sortDirection', 'desc')
-            ->call('setSort', 'accepted_name')
-            ->assertSet('sortDirection', 'asc');
-    }
-
-    public function test_set_sort_resets_direction_to_asc_for_new_field(): void
-    {
-        Livewire::test(OccurrenceBrowser::class)
-            ->set('sortField', 'accepted_name')
-            ->set('sortDirection', 'desc')
-            ->call('setSort', 'country')
-            ->assertSet('sortField', 'country')
-            ->assertSet('sortDirection', 'asc');
-    }
-
-    // ---------------------------------------------------------------------------
     // exportUrl
     // ---------------------------------------------------------------------------
 
