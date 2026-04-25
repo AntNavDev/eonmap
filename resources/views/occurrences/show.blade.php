@@ -23,7 +23,7 @@
                 </h1>
 
                 <span class="inline-block rounded-full bg-accent-subtle border border-accent-muted px-2.5 py-0.5 text-xs font-medium text-accent mb-4">
-                    {{ ucfirst($occurrence->acceptedRank) }}
+                    {{ $occurrence->acceptedRank ? ucfirst($occurrence->acceptedRank) : 'Unknown' }}
                 </span>
 
                 @php
