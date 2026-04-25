@@ -207,6 +207,16 @@
 .no-spin::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .no-spin { -moz-appearance: textfield; }
 
+/* ═══════════════════════════════════════════
+   LEAFLET MARKER CLUSTER OVERRIDES
+   The map basemap does not change with the
+   app theme, so cluster labels must always
+   use dark text regardless of [data-theme].
+   ═══════════════════════════════════════════ */
+.marker-cluster div {
+    color: #333 !important;
+}
+
 .skeleton {
     background: var(--color-skeleton);
     border-radius: 4px;
