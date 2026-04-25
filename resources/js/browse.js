@@ -19,62 +19,15 @@ function occurrenceBrowser() {
                             const row = cell.getRow().getData();
                             return `<a href="/occurrences/${row.occurrence_no}" style="color:var(--color-accent)">${cell.getValue() ?? ''}</a>`;
                         },
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
                     },
-                    {
-                        title: 'Rank',
-                        field: 'accepted_rank',
-                        sorter: 'string',
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
-                    },
-                    {
-                        title: 'Age (Early)',
-                        field: 'early_interval',
-                    },
-                    {
-                        title: 'Max Age (Mya)',
-                        field: 'max_ma',
-                        sorter: 'number',
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
-                    },
-                    {
-                        title: 'Min Age (Mya)',
-                        field: 'min_ma',
-                        sorter: 'number',
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
-                    },
-                    {
-                        title: 'Country',
-                        field: 'country',
-                        sorter: 'string',
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
-                    },
-                    {
-                        title: 'State',
-                        field: 'state',
-                    },
-                    {
-                        title: 'Formation',
-                        field: 'formation',
-                    },
-                    {
-                        title: 'Environment',
-                        field: 'environment',
-                        sorter: 'string',
-                        headerClick: (e, col) => {
-                            this.$wire.call('setSort', col.getField());
-                        },
-                    },
+                    { title: 'Rank',        field: 'accepted_rank',  sorter: 'string' },
+                    { title: 'Age (Early)', field: 'early_interval' },
+                    { title: 'Max Age (Mya)', field: 'max_ma',       sorter: 'number' },
+                    { title: 'Min Age (Mya)', field: 'min_ma',       sorter: 'number' },
+                    { title: 'Country',     field: 'country',        sorter: 'string' },
+                    { title: 'State',       field: 'state' },
+                    { title: 'Formation',   field: 'formation' },
+                    { title: 'Environment', field: 'environment',    sorter: 'string' },
                 ],
             });
         },

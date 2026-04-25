@@ -17,10 +17,6 @@ class OccurrenceBrowser extends Component
 
     public int $offset = 0;
 
-    public string $sortField = 'id';
-
-    public string $sortDirection = 'asc';
-
     public int $total = 0;
 
     /** True when the last page returned a full perPage set, indicating more records likely exist. */
@@ -189,20 +185,6 @@ class OccurrenceBrowser extends Component
 
         $this->offset = 0;
         $this->loadOccurrences();
-    }
-
-    /**
-     * Toggle sort direction when the same field is clicked; reset to asc for
-     * a new field.
-     */
-    public function setSort(string $field): void
-    {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortField = $field;
-            $this->sortDirection = 'asc';
-        }
     }
 
     /**
