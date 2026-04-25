@@ -9,7 +9,7 @@
     text-base (1rem = 16px) prevents iOS zoom on focus.
 --}}
 <div class="flex items-center gap-2">
-    <label class="whitespace-nowrap text-xs text-muted">Per page</label>
+    <label class="hidden sm:inline whitespace-nowrap text-xs text-muted">Per page</label>
     <select
         {{ $attributes->merge([
             'class' => 'rounded-md border border-border bg-surface-sunken py-1.5 pl-3 pr-8 text-base text-text focus:outline-none focus:ring-2 focus:ring-accent-muted'
