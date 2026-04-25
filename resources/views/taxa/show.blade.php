@@ -11,10 +11,8 @@
             {{ number_format($totalCount) }} occurrences
         </span>
 
-        @if ($fetchedCount < $totalCount)
-            <span class="text-sm text-muted">
-                (charts based on first {{ number_format($fetchedCount) }})
-            </span>
+        @if ($isLimited)
+            <span class="text-sm text-muted">Limited to 1,000 results</span>
         @endif
 
         <a
@@ -97,7 +95,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <p class="text-sm text-muted">No data.</p>
+                            <p class="py-1.5 text-sm text-muted">No data.</p>
                         @endif
                     </div>
 
@@ -118,7 +116,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <p class="text-sm text-muted">No data.</p>
+                            <p class="py-1.5 text-sm text-muted">No data.</p>
                         @endif
                     </div>
 
@@ -139,7 +137,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <p class="text-sm text-muted">No data.</p>
+                            <p class="py-1.5 text-sm text-muted">No data.</p>
                         @endif
                     </div>
 

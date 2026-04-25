@@ -196,6 +196,7 @@ class TaxonController extends Controller
 
         $totalCount = $occurrences->total ?: count($occurrences->items);
         $fetchedCount = count($occurrences->items);
+        $isLimited = $fetchedCount >= 1000;
 
         // Compute classification breakdown from the occurrence set.
         $byPhylum = [];
@@ -223,6 +224,7 @@ class TaxonController extends Controller
             'occurrences',
             'totalCount',
             'fetchedCount',
+            'isLimited',
             'byPhylum',
             'byClass',
             'byEnvironment',
