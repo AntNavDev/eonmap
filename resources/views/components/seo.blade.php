@@ -5,7 +5,7 @@
 ])
 
 @php
-    $fullTitle = $title ? 'Eonmap — ' . $title : 'Eonmap';
+    $fullTitle = $title ? 'EonMap — ' . $title : 'EonMap';
 @endphp
 
 <title>{{ $fullTitle }}</title>
@@ -16,7 +16,7 @@
 <meta property="og:title"       content="{{ $fullTitle }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:url"         content="{{ $canonical ?? url()->current() }}">
-<meta property="og:site_name"   content="Eonmap">
+<meta property="og:site_name"   content="EonMap">
 
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:title"       content="{{ $fullTitle }}">

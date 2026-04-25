@@ -28,7 +28,7 @@
     <nav x-data="{ open: false }" class="relative z-[1100] border-b border-border bg-surface" aria-label="Main navigation">
         <div class="flex h-16 items-center justify-between px-4 sm:px-6">
             <a href="/" class="text-lg font-semibold tracking-tight text-text">
-                Eonmap
+                EonMap
             </a>
 
             {{-- Desktop link row --}}
