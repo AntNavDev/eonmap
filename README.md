@@ -5,7 +5,7 @@ A public fossil occurrence explorer built on the [Paleobiology Database (PBDB)](
 ## Features
 
 - **Interactive map** — clustered markers, heatmap mode, paleocoordinate toggle, rectangle bounding-box filter, and three basemap options (OSM, Esri Imagery, CartoDB Dark)
-- **Browse table** — paginated, sortable table of occurrences with CSV export
+- **Browse table** — paginated table of occurrences with CSV export
 - **Taxon pages** — occurrence count by geologic period, temporal range timeline, geographic distribution map, and classification breakdown
 - **Occurrence detail** — full taxonomy, location, age bar, and mini-map for individual records
 - **Light/dark theme** — system preference detection with manual toggle, no flash on load
@@ -17,6 +17,7 @@ A public fossil occurrence explorer built on the [Paleobiology Database (PBDB)](
 | Framework | Laravel / PHP |
 | Frontend | Livewire, Alpine.js, Tailwind CSS |
 | Maps | Leaflet, leaflet.markercluster, leaflet-draw, leaflet.heat |
+| Tables | Tabulator |
 | Charts | Chart.js, vis-timeline |
 | Data source | Paleobiology Database public API |
 | Local dev | Laravel Sail (Docker) |
@@ -63,7 +64,9 @@ The app is available at `http://localhost`.
 | `GET /map` | Interactive fossil map |
 | `GET /browse` | Paginated occurrence browser |
 | `GET /occurrences/{id}` | Occurrence detail page |
+| `GET /taxa` | Taxa index |
 | `GET /taxa/{name}` | Taxon summary page |
+| `GET /guide` | Usage guide |
 
 ### API
 
