@@ -21,6 +21,8 @@ class GenerateSitemap extends Command
         ['path' => '/',       'changefreq' => 'daily',  'priority' => '1.0'],
         ['path' => '/map',    'changefreq' => 'daily',  'priority' => '0.9'],
         ['path' => '/browse', 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['path' => '/taxa',   'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['path' => '/guide',  'changefreq' => 'monthly', 'priority' => '0.5'],
     ];
 
     /**
